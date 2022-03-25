@@ -1,26 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config()
+const rutasRouter = require('./routes/rutas');
+const usuariosRouter = require('./routes/usuarios');
 
+const app = express();
 const hostname = 'localhost';
 const port = 3000;
-const app = express();
+const URI = process.env.DB_URI
 
-/*
-app.get("/", (req, res) => {
-    res.send("Hello World");
-})
-*/
+app.use(express.json());
+app.use('/rutas', rutasRouter);
+app.use('/usuarios', usuariosRouter)
 
 mongoose
-    .connect(
-        'mongodb+srv://Gustavo:test@tecpools.zupv8.mongodb.net/TecPools?retryWrites=true&w=majority'
-        )
-    .then
-        (()=>{
-            console.log('Conexion a MongoDB exitosa')
-        });
+    .connect(URI)
+    .then(() => {
+        console.log('Conexion a MongoDB exitosa')
+    });
 
 
-app.listen(port, hostname, ()=> {
+app.listen(port, hostname, () => {
     console.log(`Corriendo en http://${hostname}:${port}/`);
 });
