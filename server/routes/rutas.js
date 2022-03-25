@@ -1,27 +1,32 @@
 const router = require('express').Router();
-let Ruta = require('../models/ruta.js');
+const Ruta = require('../models/modeloRuta.js');
+const Usuario = require('../models/modeloUsuario.js');
 
 router.route('/').get((req, res) => {
     Ruta.find()
+        .populate('conductor')
         .then(rutas => res.json(rutas))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/').post((req, res) => {
-    //testing conductor
-    const conductor = req.body.conductor;
-    const origen = req.body.origen;
-    const destino = req.body.destino;
-    const horaInicio = Number(req.body.horaInicio);
-    const minutoInicio = Number(req.body.minutoInicio);
-    const horaLlegada = Number(req.body.horaLlegada);
-    const minutoLlegada = Number(req.body.minutoLlegada);
+    Ruta.create({
+        conductor: req.body.conductor,
+        origen: req.body.origen,
+        destino: req.body.destino,
+        horaInicio: Number(req.body.horaInicio),
+        minutoInicio: Number(req.body.minutoInicio),
+        horaLlegada: Number(req.body.horaLlegada),
+        minutoLlegada: Number(req.body.minutoLlegada)
+    })
+        .then(ruta => {
+            return Usuario.findById('623d36427bb1f24babdb3051').then(usuario => {
+                usuario.rutas.push(ruta.id);
+                return usuario.save();
+            })
+        })
+        .then(() => res.json("Ruta creada."))
 
-    const newRuta = new Ruta({conductor, origen, destino, horaInicio, minutoInicio, horaLlegada, minutoLlegada});
-
-    newRuta.save()
-        .then(() => res.json('Ruta agregada'))
-        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').get((req, res) => {
@@ -36,7 +41,7 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.route('/:id').post((req, res) => {
     Ruta.findById(req.params.id)
         .then(ruta => {
             ruta.conductor = req.body.conductor;
@@ -46,7 +51,7 @@ router.route('/update/:id').post((req, res) => {
             ruta.minutoInicio = Number(req.body.minutoInicio);
             ruta.horaLlegada = Number(req.body.horaLlegada);
             ruta.minutoLlegada = Number(req.body.minutoLlegada);
-            
+
             ruta.save()
                 .then(() => res.json('Ruta actualizada'))
                 .catch(err => res.status(400).json('Error: ' + err));
