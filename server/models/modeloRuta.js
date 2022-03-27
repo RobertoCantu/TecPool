@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-var validator = require('validator');
+import mongoose from "mongoose";
+import validator from "validator";
 
 const Schema = mongoose.Schema;
 
@@ -17,4 +17,5 @@ const rutaSchema = new Schema({
 });
 
 const Ruta = mongoose.model('Ruta', rutaSchema);
-module.exports = Ruta; 
+
+export default Ruta;

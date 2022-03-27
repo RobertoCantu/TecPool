@@ -1,17 +1,33 @@
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config()
-const rutasRouter = require('./routes/rutas');
-const usuariosRouter = require('./routes/usuarios');
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Middlewares
+
+import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
+
+// Routes
+
+import rutasRouter from "./routes/rutas.js";
+import userRoutes from "./routes/userRoutes.js";
+
+// Environment variables
+
+const PORT = process.env.PORT;
+const URI = process.env.DB_URI
+const hostname = 'localhost';
 
 const app = express();
-const hostname = 'localhost';
-const port = 3000;
-const URI = process.env.DB_URI
 
-app.use(express.json());
+app.use(express.json()); // to accept json data
+
 app.use('/rutas', rutasRouter);
-app.use('/usuarios', usuariosRouter)
+app.use('/users', userRoutes)
+
+app.use(notFound);
+app.use(errorHandler);
 
 mongoose
     .connect(URI)
@@ -20,6 +36,6 @@ mongoose
     });
 
 
-app.listen(port, hostname, () => {
-    console.log(`Corriendo en http://${hostname}:${port}/`);
+app.listen(PORT, hostname, () => {
+    console.log(`Corriendo en http://${hostname}:${PORT}/`);
 });
