@@ -16,7 +16,7 @@ export default function Logo({ sx }: BoxProps) {
 
   return (
     <Box sx={{ ...sx }}>
-      <Image src="/j_logo_circular.png"/>
+      <Image src="/car_pool"/>
     </Box>
   );
 }

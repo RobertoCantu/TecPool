@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import reportWebVitals from './reportWebVitals';
 import ThemeConfig from './theme';
 
@@ -13,11 +14,13 @@ import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeConfig>
-        <CollapseDrawerProvider>
-          <App />
-        </CollapseDrawerProvider>
-      </ThemeConfig>
+      <SnackbarProvider>
+        <ThemeConfig>
+          <CollapseDrawerProvider>
+            <App />
+          </CollapseDrawerProvider>
+        </ThemeConfig>
+      </SnackbarProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')

@@ -1,12 +1,12 @@
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
-// import Label from '../../components/Label';
+import Label from '../../components/Label';
 import SvgIconStyle from '../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
 
-const getIcon = (name:any) => (
+const getIcon = (name: string) => (
   <SvgIconStyle src={`/static/icons/navbar/${name}.svg`} sx={{ width: '100%', height: '100%' }} />
 );
 
@@ -32,7 +32,7 @@ const sidebarConfig = [
     subheader: 'general',
     items: [
       {
-        title: 'app',
+        title: 'Viajes',
         path: PATH_DASHBOARD.root,
         icon: ICONS.dashboard
       },
@@ -41,66 +41,7 @@ const sidebarConfig = [
 
   // MANAGEMENT
   // ----------------------------------------------------------------------
-  // {
-  //   subheader: 'Seguros',
-  //   items: [
-  //     // MANAGEMENT : Policies
-  //     {
-  //       title: 'Pólizas',
-  //       path: PATH_DASHBOARD.root,
-  //       icon: ICONS.user,
-  //       children: [
-  //         { title: 'Lista', path: PATH_DASHBOARD.general.policies },
-  //         { title: 'Crear', path: PATH_DASHBOARD.general.policies },
-  //         { title: 'Editar', path: PATH_DASHBOARD.general.policies },
-  //       ]
-  //     },
 
-  //     // MANAGEMENT : Sports
-  //     {
-  //       title: 'Deportes',
-  //       path: PATH_DASHBOARD.root,
-  //       icon: ICONS.cart,
-  //       children: [
-  //         { title: 'Lista', path: PATH_DASHBOARD.general.sports },
-  //         { title: 'Crear', path: PATH_DASHBOARD.general.sports },
-  //         { title: 'Editar', path: PATH_DASHBOARD.general.sports },
-  //       ]
-  //     },
-  //     // MANAGEMENT : Certificados
-  //     {
-  //       title: 'Certificados',
-  //       path: PATH_DASHBOARD.root,
-  //       icon: ICONS.cart,
-  //       children: [
-  //         { title: 'Lista', path: PATH_DASHBOARD.general.certificates },
-  //         { title: 'Crear', path: PATH_DASHBOARD.general.createCertificates },
-  //         { title: 'Cargar', path: PATH_DASHBOARD.root },
-  //       ]
-  //     },
-  //     {
-  //       title: 'Asegurados',
-  //       path: PATH_DASHBOARD.root,
-  //       icon: ICONS.cart,
-  //       children: [
-  //         { title: 'Lista', path: PATH_DASHBOARD.general.insureds },
-  //         { title: 'Crear', path: PATH_DASHBOARD.root },
-  //         { title: 'Editar', path: PATH_DASHBOARD.root },
-  //       ]
-  //     },
-  //     // MANAGEMENT : Productos
-  //     {
-  //       title: 'Productos',
-  //       path: PATH_DASHBOARD.root,
-  //       icon: ICONS.cart,
-  //       children: [
-  //         { title: 'Lista', path: PATH_DASHBOARD.general.products },
-  //         { title: 'Crear', path: PATH_DASHBOARD.root },
-  //         { title: 'Editar', path: PATH_DASHBOARD.root },
-  //       ]
-  //     },
-  //   ]
-  // },
 
 ];
 

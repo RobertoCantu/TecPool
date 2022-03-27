@@ -12,7 +12,7 @@ import { MIconButton } from '../../components/@material-extend';
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
 
-const SearchbarStyle = styled('div')(({ theme }:any) => ({
+const SearchbarStyle = styled('div')(({ theme }) => ({
   top: 0,
   left: 0,
   zIndex: 99,

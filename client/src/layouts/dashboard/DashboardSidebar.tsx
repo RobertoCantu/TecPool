@@ -14,11 +14,11 @@ import {
 } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 // hooks
-//import useAuth from '../../hooks/useAuth';
+// import useAuth from '../../hooks/useAuth';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // routes
 import { PATH_DASHBOARD, /*PATH_DOCS*/ } from '../../routes/paths';
-// // components
+// components
 import Logo from '../../components/Logo';
 import MyAvatar from '../../components/MyAvatar';
 import NavSection from '../../components/NavSection';
@@ -41,7 +41,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   }
 }));
 
-const AccountStyle = styled('div')(({ theme }:any) => ({
+const AccountStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
@@ -150,7 +150,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
               <Box sx={{ ml: 2 }}>
                 <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                   {/* {user?.displayName} */}
-                  Testing
+                  Andrea
                 </Typography>
               </Box>
             </AccountStyle>
@@ -172,7 +172,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
 
           <div>
             <Typography gutterBottom variant="subtitle1">
-              {/* Hi, {user?.displayName} */}
+              {/* Hi, {user?.displayName}
+               */}
+               Holaa
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               Need help?
@@ -227,7 +229,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }: Dash
                 borderRight: 0,
                 backdropFilter: 'blur(6px)',
                 WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-                boxShadow: (theme:any) => theme.customShadows.z20,
+                boxShadow: (theme) => theme.customShadows.z20,
                 bgcolor: (theme) => alpha(theme.palette.background.default, 0.88)
               })
             }

@@ -21,10 +21,10 @@ import {
   ListItemButton
 } from '@mui/material';
 // utils
-// import { fToNow } from '../../utils/formatTime';
-// import mockData from '../../utils/mock-data';
-// // components
-// import MenuPopover from '../../components/MenuPopover';
+import { fToNow } from '../../utils/formatTime';
+import mockData from '../../utils/mock-data';
+// components
+import MenuPopover from '../../components/MenuPopover';
 import { MIconButton } from '../../components/@material-extend';
 
 // ----------------------------------------------------------------------
@@ -47,19 +47,19 @@ const DESCRIPTIONS = [
 
 const TYPES = ['order_placed', 'friend_interactive', 'chat_message', 'mail', 'order_shipped'];
 
-// const AVATARS = [null, mockData.image.avatar(2), null, null, null];
+const AVATARS = [null, mockData.image.avatar(2), null, null, null];
 
 const UNREADS = [true, true, false, false, false];
 
-// const MOCK_NOTIFICATIONS = [...Array(5)].map((_, index) => ({
-//   id: mockData.id(index),
-//   title: TITLES[index],
-//   description: DESCRIPTIONS[index],
-//   avatar: AVATARS[index],
-//   type: TYPES[index],
-//   createdAt: mockData.time(index),
-//   isUnRead: UNREADS[index]
-// }));
+const MOCK_NOTIFICATIONS = [...Array(5)].map((_, index) => ({
+  id: mockData.id(index),
+  title: TITLES[index],
+  description: DESCRIPTIONS[index],
+  avatar: AVATARS[index],
+  type: TYPES[index],
+  createdAt: mockData.time(index),
+  isUnRead: UNREADS[index]
+}));
 
 // ----------------------------------------------------------------------
 
@@ -145,7 +145,7 @@ function NotificationItem({ notification }: { notification: TNotificationPopover
             }}
           >
             <Box component={Icon} icon={clockFill} sx={{ mr: 0.5, width: 16, height: 16 }} />
-            {/* {fToNow(notification.createdAt)} */}
+            {fToNow(notification.createdAt)}
           </Typography>
         }
       />
@@ -156,8 +156,8 @@ function NotificationItem({ notification }: { notification: TNotificationPopover
 export default function NotificationsPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
-  // const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
-  // const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const [notifications, setNotifications] = useState(MOCK_NOTIFICATIONS);
+  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
 
   const handleOpen = () => {
     setOpen(true);
@@ -167,14 +167,14 @@ export default function NotificationsPopover() {
     setOpen(false);
   };
 
-  // const handleMarkAllAsRead = () => {
-  //   setNotifications(
-  //     notifications.map((notification) => ({
-  //       ...notification,
-  //       isUnRead: false
-  //     }))
-  //   );
-  // };
+  const handleMarkAllAsRead = () => {
+    setNotifications(
+      notifications.map((notification) => ({
+        ...notification,
+        isUnRead: false
+      }))
+    );
+  };
 
   return (
     <>
@@ -184,12 +184,12 @@ export default function NotificationsPopover() {
         color={open ? 'primary' : 'default'}
         onClick={handleOpen}
       >
-        {/* <Badge badgeContent={totalUnRead} color="error"> */}
+        <Badge badgeContent={totalUnRead} color="error">
           <Icon icon={bellFill} width={20} height={20} />
-        {/* </Badge> */}
+        </Badge>
       </MIconButton>
 
-      {/* <MenuPopover
+      <MenuPopover
         open={open}
         onClose={handleClose}
         anchorEl={anchorRef.current}
@@ -249,7 +249,7 @@ export default function NotificationsPopover() {
             View All
           </Button>
         </Box>
-      </MenuPopover> */}
+      </MenuPopover>
     </>
   );
 }

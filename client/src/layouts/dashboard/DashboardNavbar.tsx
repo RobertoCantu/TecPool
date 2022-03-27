@@ -8,7 +8,7 @@ import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // components
 // import { MHidden } from '../../components/@material-extend';
 import Searchbar from './Searchbar';
-// import AccountPopover from './AccountPopover';
+import AccountPopover from './AccountPopover';
 // import LanguagePopover from './LanguagePopover';
 import ContactsPopover from './ContactsPopover';
 import NotificationsPopover from './NotificationsPopover';
@@ -70,7 +70,7 @@ export default function DashboardNavbar({ onOpenSidebar }: DashboardNavbarProps)
           {/* <LanguagePopover /> */}
           <NotificationsPopover />
           <ContactsPopover />
-          {/* <AccountPopover /> */}
+          <AccountPopover />
         </Stack>
       </ToolbarStyle>
     </RootStyle>

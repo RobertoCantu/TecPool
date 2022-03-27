@@ -1,7 +1,7 @@
 import { Navigate, useRoutes, useLocation, useNavigate } from 'react-router-dom';
 import DashboardLayout from '../layouts/dashboard';
 import Login from '../pages/Login';
-
+import RidesList from '../pages/RidesList';
 
 export default function Router() {
     return useRoutes([
@@ -40,7 +40,7 @@ export default function Router() {
           //</AuthGuard>
         ),
         children: [
-          // { path: '/dashboard', element: <HomePage /> },
+          { path: '/dashboard', element: <RidesList /> },
         ] 
       },
       // { path: '/', element: <Navigate to="/auth/login" replace /> }
