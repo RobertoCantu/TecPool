@@ -2,6 +2,7 @@ import { Navigate, useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import DashboardLayout from '../layouts/dashboard';
 import Login from '../pages/Login';
 import RidesList from '../pages/RidesList';
+import CreateRide from '../pages/CreateRide';
 
 export default function Router() {
     return useRoutes([
@@ -41,6 +42,7 @@ export default function Router() {
         ),
         children: [
           { path: '/dashboard', element: <RidesList /> },
+          { path: 'create', element: <CreateRide /> },
         ] 
       },
       // { path: '/', element: <Navigate to="/auth/login" replace /> }

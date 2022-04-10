@@ -52,7 +52,7 @@ function RidesList() {
     ]
 
       return (
-        <div>
+        <>
           <HeaderBreadcrumbs
             heading="Lista de Viajes"
             links={[
@@ -78,7 +78,7 @@ function RidesList() {
               loading= {loadingTable}
             />
           </Card>
-        </div>
+        </>
       )
 }
 
