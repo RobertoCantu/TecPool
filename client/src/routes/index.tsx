@@ -2,6 +2,7 @@ import { Navigate, useRoutes, useLocation, useNavigate } from 'react-router-dom'
 import DashboardLayout from '../layouts/dashboard';
 import Login from '../pages/Login';
 import RidesList from '../pages/RidesList';
+import Register from '../pages/Register';
 
 export default function Router() {
     return useRoutes([
@@ -16,14 +17,14 @@ export default function Router() {
               //</GuestGuard>
             )
           },
-          // {
-          //   path: 'register',
-          //   element: (
+           {
+             path: 'register',
+             element: (
           //     <GuestGuard>
-          //       <Register />
+                 <Register />
           //     </GuestGuard>
-          //   )
-          // },
+             )
+           },
           {
             path: 'logout',
             // element: <Logout/>
