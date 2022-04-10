@@ -3,6 +3,7 @@ import DashboardLayout from '../layouts/dashboard';
 import Login from '../pages/Login';
 import RidesList from '../pages/RidesList';
 import CreateRide from '../pages/CreateRide';
+import Register from '../pages/Register';
 
 export default function Router() {
     return useRoutes([
@@ -17,14 +18,14 @@ export default function Router() {
               //</GuestGuard>
             )
           },
-          // {
-          //   path: 'register',
-          //   element: (
+           {
+             path: 'register',
+             element: (
           //     <GuestGuard>
-          //       <Register />
+                 <Register />
           //     </GuestGuard>
-          //   )
-          // },
+             )
+           },
           {
             path: 'logout',
             // element: <Logout/>

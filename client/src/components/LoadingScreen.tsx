@@ -11,7 +11,7 @@ import Logo from './Logo';
 
 const RootStyle = styled('div')(({ theme }) => ({
   height: '100%',
-  display: 'flex',
+  display: 'flex',    
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: theme.palette.background.default

@@ -1,6 +1,13 @@
-const router = require('express').Router();
-const Ruta = require('../models/modeloRuta.js');
-const Usuario = require('../models/modeloUsuario.js');
+import express from "express";
+
+// Models
+
+import Ruta from "../models/modeloRuta.js";
+import User from "../models/userModel.js";
+
+const router = express.Router();
+
+// Endpoints
 
 router.route('/').get((req, res) => {
     Ruta.find()
@@ -20,7 +27,7 @@ router.route('/').post((req, res) => {
         minutoLlegada: Number(req.body.minutoLlegada)
     })
         .then(ruta => {
-            return Usuario.findById('623d36427bb1f24babdb3051').then(usuario => {
+            return User.findById('623d36427bb1f24babdb3051').then(usuario => {
                 usuario.rutas.push(ruta.id);
                 return usuario.save();
             })
@@ -59,4 +66,4 @@ router.route('/:id').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-module.exports = router;
+export default router;
