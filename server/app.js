@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from 'cors';
 import dotenv from "dotenv";
 import { whatsapp } from "./utils/twilio.js";
 
@@ -27,6 +28,11 @@ const app = express();
 // })
 
 app.use(express.json()); // to accept json data
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", 'DELETE', "PUT"],
+    credentials: true,
+}));
 
 app.use('/rutas', rutasRouter);
 app.use('/users', userRoutes)

@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import ThemeConfig from './theme';
 
 // context 
+import { AuthProvider } from './contexts/AuthContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
 
@@ -15,11 +16,13 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <SnackbarProvider>
-        <ThemeConfig>
-          <CollapseDrawerProvider>
-            <App />
-          </CollapseDrawerProvider>
-        </ThemeConfig>
+        <AuthProvider>
+          <ThemeConfig>
+            <CollapseDrawerProvider>
+              <App />
+            </CollapseDrawerProvider>
+          </ThemeConfig>
+        </AuthProvider>
       </SnackbarProvider>
     </BrowserRouter>
   </React.StrictMode>,
