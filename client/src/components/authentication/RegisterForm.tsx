@@ -1,12 +1,18 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'
-// icons
+
+// UI
+
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
-import {useState} from 'react'
-import { Formik, Field, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, Box, Card, IconButton, InputAdornment } from '@mui/material';
+import { Formik, Form, FormikHelpers } from 'formik';
+import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+// Hooks
+
 import useAuth from '../../hooks/useAuth';
 
 type InitialValues = {
@@ -31,6 +37,7 @@ const RegisterSchema = Yup.object().shape({
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const context = useAuth();
   const {register} = context;
 
@@ -55,6 +62,7 @@ function RegisterForm() {
         ) => {
           try {
             await register(values.firstName, values.lastName, values.email, values.phone, values.password);
+            navigate('/dashboard');
           } catch (error:any){
             console.log(error.response.data.message)
             resetForm();
@@ -103,7 +111,7 @@ function RegisterForm() {
                   fullWidth
                   autoComplete="username"
                   type="text"
-                  label="Numero telefonico"
+                  label="Numero telefónico"
                   name= "phone"
                   value = {values.phone}
                   onChange = {handleChange}

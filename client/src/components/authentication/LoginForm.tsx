@@ -1,27 +1,34 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'
-// icons
+
+// UI
+
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
-import {useState} from 'react'
-import { Formik, Field, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, Box, Card, IconButton, InputAdornment } from '@mui/material';
+import { Formik, Form, FormikHelpers } from 'formik';
+import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+// Hooks
+
 import useAuth from '../../hooks/useAuth';
 
 interface InitialValues {
-  userName: string;
+  email: string;
   password: string;
   afterSubmit?: string;
 };
 
 const LoginSchema = Yup.object().shape({
-  userName: Yup.string().email('El nombre de usuario debe ser valido').required('Se requiere un nombre de usuario'),
+  email: Yup.string().email('El correo debe ser valido').required('Se requiere un correo registrado'),
   password: Yup.string().required('Se requiere una contraseña')
 });
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const context = useAuth();
   const {login} = context;
 
@@ -33,7 +40,7 @@ export default function LoginForm() {
     <div>
       <Formik
         initialValues={{
-          userName: '',
+          email: '',
           password: '',
         }}
         validationSchema= {LoginSchema}
@@ -42,7 +49,8 @@ export default function LoginForm() {
           { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            await login(values.userName, values.password);
+            await login(values.email, values.password);
+            navigate('/dashboard');
           } catch (error:any){
             console.log(error.response.data.message)
             resetForm();
@@ -56,14 +64,14 @@ export default function LoginForm() {
             <Stack spacing={2}>
               <TextField
                 fullWidth
-                autoComplete="username"
+                autoComplete="email"
                 type="email"
-                label="Nombre de usuario"
-                name= "userName"
-                value = {values.userName}
+                label="Correo electrónico"
+                name= "email"
+                value = {values.email}
                 onChange = {handleChange}
-                error={Boolean(touched.userName && errors.userName)}
-                helperText={touched.userName && errors.userName}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
               />
               <TextField
                 fullWidth

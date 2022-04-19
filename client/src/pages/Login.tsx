@@ -1,9 +1,29 @@
-import React from 'react';
 import { makeStyles } from '@mui/styles';
+
+// UI
+
+import { Box, Card, Stack, Container, Typography } from '@mui/material';
+
+// Components
+
 import LoginForm from '../components/authentication/LoginForm'
-//import Card from '../theme/overrides/Card'
-// material
-import { Box, Card, Stack, Link, Alert, Tooltip, Container, Typography } from '@mui/material';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100vh'
+  },
+  content: {
+    maxWidth: 480,
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: '40px'
+  }
+});
 
 function Login() {
   const classes = useStyles();
@@ -16,9 +36,11 @@ function Login() {
             <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom>
-                  Iniciar Sesión a TecPool
+                  Iniciar Sesión en TecPool
                 </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Ingresa tus datos debajo</Typography>
+                <Typography sx={{ color: 'text.secondary' }}>
+                  Ingresa tus datos
+                </Typography>
               </Box>
             </Stack>
             <LoginForm/>
@@ -29,20 +51,5 @@ function Login() {
 
   )
 };
-
-const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-    paddingTop: '20px',
-  },
-  content: {
-      maxWidth: 480,
-      margin: 'auto',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      padding: '40px'
-  }
-});
 
 export default Login
