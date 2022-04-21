@@ -15,6 +15,10 @@ import { LoadingButton } from '@mui/lab';
 
 import useAuth from '../../hooks/useAuth';
 
+// Utils
+
+import { PATH_DASHBOARD } from '../../routes/paths';
+
 interface InitialValues {
   email: string;
   password: string;
@@ -50,7 +54,7 @@ export default function LoginForm() {
         ) => {
           try {
             await login(values.email, values.password);
-            navigate('/dashboard');
+            navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.response.data.message)
             resetForm();

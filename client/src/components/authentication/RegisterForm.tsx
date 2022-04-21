@@ -15,6 +15,10 @@ import { LoadingButton } from '@mui/lab';
 
 import useAuth from '../../hooks/useAuth';
 
+// Utils
+
+import { PATH_DASHBOARD } from '../../routes/paths';
+
 type InitialValues = {
   email: string;
   password: string;
@@ -62,7 +66,7 @@ function RegisterForm() {
         ) => {
           try {
             await register(values.firstName, values.lastName, values.email, values.phone, values.password);
-            navigate('/dashboard');
+            navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.response.data.message)
             resetForm();
