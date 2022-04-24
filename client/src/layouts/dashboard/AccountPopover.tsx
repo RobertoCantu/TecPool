@@ -11,7 +11,7 @@ import { Button, Box, Divider, MenuItem, Typography } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
-// import useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import useIsMountedRef from '../../hooks/useIsMountedRef';
 // components
 import { MIconButton } from '../../components/@material-extend';
@@ -45,7 +45,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const navigate = useNavigate();
   const anchorRef = useRef(null);
-  // const { user, logout } = useAuth();
+  const { user, logout } = useAuth();
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
@@ -57,18 +57,18 @@ export default function AccountPopover() {
     setOpen(false);
   };
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await logout?.();
-  //     if (isMountedRef.current) {
-  //       navigate('/');
-  //       handleClose();
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     enqueueSnackbar('Unable to logout', { variant: 'error' });
-  //   }
-  // };
+  const handleLogout = async () => {
+    try {
+      await logout?.();
+      if (isMountedRef.current) {
+        navigate('/');
+        handleClose();
+      }
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar('Unable to logout', { variant: 'error' });
+    }
+  };
 
   return (
     <>
@@ -103,13 +103,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {/* {user?.displayName}
-             */}
-             Pancho
+            {user?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {/* {user?.email} */}
-            Emaill
+            {user?.email}
           </Typography>
         </Box>
 
@@ -138,7 +135,7 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined" >
+          <Button fullWidth color="inherit" variant="outlined" onClick={handleLogout} >
             Logout
           </Button>
         </Box>

@@ -4,6 +4,11 @@ import Login from '../pages/Login';
 import RidesList from '../pages/RidesList';
 import CreateRide from '../pages/CreateRide';
 import Register from '../pages/Register';
+import Logout from '../components/authentication/Logout';
+
+// Guards
+import AuthGuard from '../guards/AuthGuard';
+import GuestGuard from '../guards/GuestGuard';
 
 export default function Router() {
     return useRoutes([
@@ -13,22 +18,22 @@ export default function Router() {
           {
             path: 'login',
             element: (
-              //<GuestGuard>
+              <GuestGuard>
                 <Login />
-              //</GuestGuard>
+              </GuestGuard>
             )
           },
            {
              path: 'register',
              element: (
-          //     <GuestGuard>
+              <GuestGuard>
                  <Register />
-          //     </GuestGuard>
+              </GuestGuard>
              )
            },
           {
             path: 'logout',
-            // element: <Logout/>
+            element: <Logout/>
           },
         ]
       },
@@ -37,9 +42,9 @@ export default function Router() {
       {
         path: 'dashboard',
         element: (
-          //<AuthGuard>
+          <AuthGuard>
             <DashboardLayout />
-          //</AuthGuard>
+          </AuthGuard>
         ),
         children: [
           { path: '/dashboard', element: <RidesList /> },

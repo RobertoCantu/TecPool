@@ -1,24 +1,24 @@
 import { useState } from 'react'
-// routes
 import { Link as RouterLink } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../routes/paths';
-// material
-import {Card, Button,} from '@mui/material';
-// components
-// import {SportsTable} from '../../../components/insurance/sport';
-import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
-// import Page from '../../../components/Page';
-// icons
+
+// UI
+
+import {Card, Button } from '@mui/material';
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
-// // services
-// import { fetchSports } from '../../../services/insuranceService';
-// // types
-// import { SportType } from '../../../@types/insurance';
+
+// Components
+
 import Rides from '../components/RidesTable';
+import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
+import MapInput from '../components/inputs/MapInput';
 
+// Utils
 
-function RidesList() {
+import { PATH_DASHBOARD } from '../routes/paths';
+
+const RidesList: React.FC = () => {
+  
     // const [sports, setSports] = useState<SportType[]>();
     //   const [count, setCount] = useState(0);
       const [loadingTable, setLoadingTable] = useState(false);
@@ -78,6 +78,7 @@ function RidesList() {
               loading= {loadingTable}
             />
           </Card>
+          <MapInput />
         </>
       )
 }
