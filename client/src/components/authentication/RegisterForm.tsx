@@ -54,6 +54,7 @@ function RegisterForm() {
           { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
+            console.log(values);
             await register(values.firstName, values.lastName, values.email, values.phone, values.password);
           } catch (error:any){
             console.log(error.response.data.message)
