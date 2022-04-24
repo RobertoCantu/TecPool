@@ -1,8 +1,11 @@
-import { makeStyles } from '@mui/styles';
+import { Link as RouterLink } from 'react-router-dom';
 
+import { makeStyles } from '@mui/styles';
+// routes
+import { PATH_AUTH } from '../routes/paths';
 // UI
 
-import { Box, Card, Stack, Container, Typography } from '@mui/material';
+import { Box, Card, Stack, Container, Typography, Link } from '@mui/material';
 
 // Components
 
@@ -44,6 +47,12 @@ function Login() {
               </Box>
             </Stack>
             <LoginForm/>
+             <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+             ¿No tienes una cuenta?&nbsp;
+              <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
+                Haz click para crear una
+              </Link>
+            </Typography>
           </Card>
         </div>
       </Container>
