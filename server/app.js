@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from 'cors';
 import dotenv from "dotenv";
-import { whatsapp } from "./utils/twilio.js";
-import { transporter } from './utils/nodemailer.js';
+import {conductor, pasajero} from "./utils/twilio.js";
+// import { transporter } from './utils/nodemailer.js';
 
 dotenv.config();
 
@@ -25,23 +25,24 @@ const hostname = 'localhost';
 const app = express();
 
 app.post("/twilio", ()=>{
-    whatsapp('8134444000', 'Hello World');
+    pasajero('8134444000')
+    conductor('8134444000')
 })
 
-app.post('/send-email', ()=>{
-    transporter.sendMail({
-        from: '"TecPools" <tecpools@outlook.com>',
-        to: 'ntw85363@jiooq.com',
-        subject: "Bienvenido a TecPools",
-        html: "<h1>Bienvenido a TecPools</h1><p>Tu cuenta fue creada exitosamente.</p><p>Inicia sesión en tecpools.tec.mx.<p>",
-    }, (err, info) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log(info.response)
-    });  
-})
+// app.post('/send-email', ()=>{
+//     transporter.sendMail({
+//         from: '"TecPools" <tecpools@outlook.com>',
+//         to: '',
+//         subject: "Bienvenido a TecPools",
+//         html: "<h1>Bienvenido a TecPools</h1><p>Tu cuenta fue creada exitosamente.</p><p>Inicia sesión en tecpools.tec.mx.<p>",
+//     }, (err, info) => {
+//         if (err) {
+//             console.log(err);
+//             return;
+//         }
+//         console.log(info.response)
+//     });  
+// })
 
 app.use(express.json()); // to accept json data
 app.use(cors({
