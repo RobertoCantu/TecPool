@@ -3,15 +3,16 @@ import { Link as RouterLink } from 'react-router-dom';
 
 // UI
 
-import {Card, Button } from '@mui/material';
+import {Card, Button, Stack, Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+
 import { Icon } from '@iconify/react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 
 // Components
 
-import Rides from '../components/RidesTable';
+import RidesTable from '../components/RidesTable';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
-import MapInput from '../components/inputs/MapInput';
 
 // Utils
 
@@ -51,36 +52,39 @@ const RidesList: React.FC = () => {
         }
     ]
 
-      return (
-        <>
-          <HeaderBreadcrumbs
-            heading="Lista de Viajes"
-            links={[
-              { name: 'Dashboard', href: PATH_DASHBOARD.root },
-              { name: 'Lista' }
-            ]}
-            action={
+    /*
+                action={
               <Button
                 variant="contained"
                 component={RouterLink}
                 to={PATH_DASHBOARD.root}
                 startIcon={<Icon icon={plusFill} />}
               >
-                Agregar viaje
+                Agregar ruta
               </Button>
             }
+    */
+
+      return (<>
+        <Stack>
+          <HeaderBreadcrumbs
+            heading="Rutas Disponibles"
+            links={[]}
           />
           <Card>
-            <Rides
+            <RidesTable
               defaultRides={rides}
               count={rides.length}
               getRides={getRides}
               loading= {loadingTable}
             />
           </Card>
-          <MapInput />
-        </>
-      )
+        </Stack>
+        <Fab color="primary" variant="extended" aria-label="add" sx={{position: "fixed", bottom: '64px', right: '124px'}}>
+          <AddIcon />
+          Agregar ruta
+        </Fab>
+      </> )
 }
 
 export default RidesList

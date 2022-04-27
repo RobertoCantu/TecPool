@@ -30,14 +30,15 @@ type InitialValues = {
   
 const RegisterSchema = Yup.object().shape({
   firstName: Yup.string()
-    .min(2, 'Demasiado Corto!')
-    .max(50, 'Demasiado Largo!')
-    .required('Se requiere el primer nombre'),
-  lastName: Yup.string().min(2, 'Demasiado Corto!').max(50, 'Demasiado Largo!').required('Se requiere el apellido'),
-  email: Yup.string().email('El correo debe ser una direccion de correo valida').required('Se requiere el email'),
-  phone: Yup.string().required('Se requiere el numero telefonico'),
-  password: Yup.string().required('Se requiere una contraseña')
-});
+    .min(2, 'El nombre es muy corto')
+    .required('Se requiere el nombre'),
+  lastName: Yup.string().min(4, 'Se requieren los dos apellidos').max(50, 'Demasiado Largo!').required('Se requiere el apellido'),
+  email: Yup.string().email('El correo debe ser una direccion de correo valida').required('Se requiere un email'),
+  phone: Yup.string().min(10, 'El número telefónico debe ser de 10 dígitos').required('Se requiere un teléfono'),
+  password: Yup.string().required('Se requiere una contraseña').matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+    "La contraseña de be tener 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y un carácter especial"
+  ),});
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -76,14 +77,14 @@ function RegisterForm() {
           }
         }}
       >
-        {({handleChange, values, errors, touched, isSubmitting}) => (
+        {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
             <Stack spacing={2}>
               <TextField
                   fullWidth
                   autoComplete="firstName"
                   type="text"
-                  label="Primer Nombre"
+                  label="Nombre"
                   name= "firstName"
                   value = {values.firstName}
                   onChange = {handleChange}
@@ -105,7 +106,7 @@ function RegisterForm() {
                   fullWidth
                   autoComplete="email"
                   type="email"
-                  label="Correo electronico"
+                  label="Correo electrónico"
                   name= "email"
                   value = {values.email}
                   onChange = {handleChange}
@@ -116,10 +117,15 @@ function RegisterForm() {
                   fullWidth
                   autoComplete="username"
                   type="text"
-                  label="Numero telefónico"
+                  label="Celular"
                   name= "phone"
                   value = {values.phone}
-                  onChange = {handleChange}
+                  inputProps={{ maxLength: 10 }}
+                  onChange={e => {
+                    e.preventDefault();
+                    const value = e.target.value.replace(/\D/g, "")
+                    setFieldValue("phone", value);
+                  }}
                   error={Boolean(touched.phone && errors.phone)}
                   helperText={touched.phone && errors.phone}
                 />

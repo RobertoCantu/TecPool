@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 // material
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, useTheme, Container } from '@mui/material';
+
 // hooks
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 //
 import DashboardNavbar from './DashboardNavbar';
-import DashboardSidebar from './DashboardSidebar';
 
 // ----------------------------------------------------------------------
 
@@ -40,9 +40,8 @@ export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
 
   return (
-    <RootStyle>
+    <Container maxWidth="lg" sx={{  display: 'flex', minHeight: '100%',overflow: 'hidden'}}>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle
         sx={{
           transition: theme.transitions.create('margin', {
@@ -55,6 +54,6 @@ export default function DashboardLayout() {
       >
         <Outlet />
       </MainStyle>
-    </RootStyle>
+    </Container>
   );
 }

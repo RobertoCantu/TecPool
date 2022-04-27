@@ -5,6 +5,7 @@ import RidesList from '../pages/RidesList';
 import CreateRide from '../pages/CreateRide';
 import Register from '../pages/Register';
 import Logout from '../components/authentication/Logout';
+import MapInput from '../components/inputs/MapInput';
 
 // Guards
 import AuthGuard from '../guards/AuthGuard';
@@ -35,6 +36,10 @@ export default function Router() {
             path: 'logout',
             element: <Logout/>
           },
+          {
+            path: 'map',
+            element: <MapInput/>
+          }
         ]
       },
   

@@ -32,12 +32,6 @@ const MENU_OPTIONS = [
     // linkTo: PATH_DASHBOARD.user.profile
     linkTo: '/'
   },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    // linkTo: PATH_DASHBOARD.user.account
-    linkTo: '/'
-  }
 ];
 
 // ----------------------------------------------------------------------

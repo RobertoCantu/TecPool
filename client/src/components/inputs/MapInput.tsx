@@ -52,7 +52,7 @@ const MapInput: React.FC = (props) => {
     if(originRef.current?.value === '') return;
 
     const directionService = new google.maps.DirectionsService()
-    console.log(destinationRef.current?.value)
+    console.log(originRef.current?.value, originRef)
     const results = await directionService.route({
       origin: originRef.current?.value!,
       destination: 'Tecnológico de Monterrey, Avenida Eugenio Garza Sada, Tecnológico, Monterrey, Nuevo León, México',

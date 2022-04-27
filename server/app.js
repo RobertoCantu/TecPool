@@ -29,7 +29,7 @@ const app = express();
 
 app.use(express.json()); // to accept json data
 app.use(cors({
-    origin: ["http://localhost:3001"],
+    origin: ["http://localhost:3000"],
     methods: ["GET", "POST", 'DELETE', "PUT"],
     credentials: true,
 }));
