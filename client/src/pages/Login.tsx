@@ -18,13 +18,16 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     height: '100vh'
   },
-  content: {
-    maxWidth: 480,
-    margin: 'auto',
+  mainContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: '40px'
+    alignItems: 'center'
+  },
+  registerLink: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 24
   }
 });
 
@@ -33,8 +36,7 @@ function Login() {
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="sm">
-       <div className={classes.content}>
+      <Container maxWidth="sm" className={classes.mainContainer}>
           <Card sx={{padding:5}}>
             <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
               <Box sx={{ flexGrow: 1 }}>
@@ -47,14 +49,15 @@ function Login() {
               </Box>
             </Stack>
             <LoginForm/>
-             <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-             ¿No tienes una cuenta?&nbsp;
-              <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-                Haz click para crear una
-              </Link>
-            </Typography>
           </Card>
-        </div>
+          <div className={classes.registerLink}>
+            <Typography variant="body2">
+              ¿No tienes una cuenta?&nbsp;
+            </Typography>
+            <Link underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
+              Haz click para crear una
+            </Link>
+          </div>
       </Container>
     </div>
 

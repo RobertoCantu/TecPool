@@ -3,7 +3,7 @@ import {createContext,ReactNode,useEffect,useReducer} from 'react'
 import axios from '../utils/axios'
 // services
 import { 
-  login as auhtLogin,
+  login as authLogin,
   register as authRegister 
 } from '../services/authService';
 // @types
@@ -134,7 +134,7 @@ function AuthProvider({children} : {children: ReactNode}){
 
   const login = async(email:string,password:string) => {
     try {
-      const response:any = await auhtLogin(email,password);
+      const response:any = await authLogin(email,password);
 			console.log(response);
 
 			const { token } = response;

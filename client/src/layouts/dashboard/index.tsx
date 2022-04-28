@@ -40,7 +40,7 @@ export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Container maxWidth="lg" sx={{  display: 'flex', minHeight: '100%',overflow: 'hidden'}}>
+    <Container maxWidth="lg" sx={{  display: 'flex', height: '100vh', overflow: 'hidden'}}>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <MainStyle
         sx={{

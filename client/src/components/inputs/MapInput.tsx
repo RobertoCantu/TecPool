@@ -9,23 +9,32 @@ import {Button, TextField, Stack, Box, CircularProgress } from '@mui/material';
 
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
 
+// MapInput styles
 const useStyles = makeStyles({
   autoComplete: {
     width: '100%'
   },
 });
 
-interface Coordinate {
+// Define types and props
+type Coordinates = {
   lat: number,
   lng: number,
 };
 
-const MapInput: React.FC = (props) => {
+type MapProps = {
+  height: number,
+  width: number,
+  error: boolean,
+  helperText: string  | boolean | undefined,
+  setAddress: (value: string) => void
+}
+
+export const MapInput = ({height, width, setAddress, error, helperText}:MapProps) => {
   const classes = useStyles();
 
   const [directionsResponse, setDirectionResponse] = useState<google.maps.DirectionsResult | null>(null)
   const originRef = useRef<HTMLInputElement | null>(null)
-  const destinationRef = useRef<HTMLInputElement | null>(null)
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
@@ -43,7 +52,7 @@ const MapInput: React.FC = (props) => {
     mapRef.current = null;
   }
 
-  const center: Coordinate = {
+  const center: Coordinates = {
     lat: 25.652164527595186,
     lng: -100.2896687460225,
   };
@@ -52,13 +61,14 @@ const MapInput: React.FC = (props) => {
     if(originRef.current?.value === '') return;
 
     const directionService = new google.maps.DirectionsService()
-    console.log(originRef.current?.value, originRef)
     const results = await directionService.route({
       origin: originRef.current?.value!,
       destination: 'Tecnológico de Monterrey, Avenida Eugenio Garza Sada, Tecnológico, Monterrey, Nuevo León, México',
       travelMode: google.maps.TravelMode.DRIVING
     })
     setDirectionResponse(results)
+    setAddress(originRef.current?.value!)
+    console.log("RESULTS", results)
   }
   
   if(!isLoaded) return <CircularProgress />
@@ -66,9 +76,9 @@ const MapInput: React.FC = (props) => {
     return (
       <Stack alignItems= 'center' spacing={4} justifyContent= 'center' sx={{width: '100%'}}>
         <Autocomplete onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}>
-          <TextField sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef}/>
+          <TextField error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
         </Autocomplete>
-        <Box sx={{ height: 500, width: 500 }}>
+        <Box sx={{ height: 100, width: 100 }}>
           <GoogleMap
             center={center}
             zoom={15}
@@ -86,5 +96,3 @@ const MapInput: React.FC = (props) => {
       </Stack>
     )
 }
-
-export default MapInput

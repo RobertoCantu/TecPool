@@ -37,8 +37,6 @@ function Rides({defaultRides, count, getRides, loading}: rides) {
 		// }
 	]
 
-	
-
   return (
 		<Table
       data={defaultRides}
