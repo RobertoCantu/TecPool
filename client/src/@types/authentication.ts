@@ -25,4 +25,5 @@ export type ActionMap<M extends { [index: string]: any }> = {
       login: (username:string, password:string) => Promise<void>
       register: (firstName:string, lastName:string, username:string, email:string, password:string) => Promise<void>;
       logout: () => Promise<void>;
+    //  addRoute: (direccion: string, hora: number, minutos: number, gasolina: boolean, asientos: number) => Promise<void>;
   };
