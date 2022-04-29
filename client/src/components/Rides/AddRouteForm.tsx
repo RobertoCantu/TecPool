@@ -4,7 +4,8 @@ import * as Yup from 'yup'
 
 // Components
 
-import MapInput from '../inputs/MapInput';
+import { MapInput } from '../inputs/MapInput';
+import { TimeInput } from '../inputs/TimeInput';
 
 // UI
 
@@ -12,7 +13,7 @@ import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Stack, IconButton, InputAdornment, touchRippleClasses, FormGroup, FormControlLabel, Checkbox, Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // Hooks
@@ -78,46 +79,45 @@ export default function AddRouteForm() {
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
             <Stack spacing={2}> 
-              <MapInput/>
-              <TextField
-                fullWidth
-                autoComplete="hora"
-                type="number"
-                label="Hora"
-                name= "hora"
-                value = {values.hora}
-                onChange = {handleChange}
-                error={Boolean(touched.hora && errors.hora)}
-                helperText={touched.hora && errors.hora}
+              <TimeInput
+                setHour={value => setFieldValue('hora', value)}
+                setMinutes={value => setFieldValue('minutos', value)}
+                error={Boolean(touched.hora && errors.hora && touched.minutos && errors.minutos)}
+                helperText={touched.hora && errors.hora && touched.minutos && errors.minutos}
               />
-              <TextField
-                fullWidth
-                autoComplete="minutos"
-                type="number"
-                label="Minutos"
-                name= "minutos"
-                value = {values.minutos}
-                onChange = {handleChange}
-                error={Boolean(touched.minutos && errors.minutos)}
-                helperText={touched.minutos && errors.minutos}
+              <FormControl fullWidth>
+                <InputLabel id="select-asientos">Asientos</InputLabel>
+                  <Select
+                    labelId="select-label-asientos"
+                    id="select-asientos"
+                    value={values.asientos}
+                    label="Asientos"
+                    onChange={handleChange}
+                  >
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={6}>6</MenuItem>
+                </Select>
+              </FormControl>
+              <MapInput
+                height={50}
+                width={50}
+                setAddress={value => setFieldValue('direccion', value)}
+                error={Boolean(touched.direccion && errors.direccion)}
+                helperText={touched.direccion && errors.direccion}
               />
-              <TextField
-                fullWidth
-                autoComplete="asientos"
-                type="asientos"
-                label="Correo electrónico"
-                name= "asientos"
-                value = {values.asientos}
-                onChange = {handleChange}
-                error={Boolean(touched.asientos && errors.asientos)}
-                helperText={touched.asientos && errors.asientos}
-              />
+              <FormGroup>
+                <FormControlLabel control={<Checkbox />} label="Apoyo para la gasolina" />
+              </FormGroup>
               <LoadingButton
-              fullWidth
-              size='large'
-              type='submit'
-              variant='contained'
-              loading={isSubmitting}
+                fullWidth
+                size='large'
+                type='submit'
+                variant='contained'
+                loading={isSubmitting}
               >Registrar</LoadingButton>
             </Stack>
           </Form>
