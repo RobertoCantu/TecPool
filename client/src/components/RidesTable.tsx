@@ -15,7 +15,7 @@ function Rides({defaultRides, count, getRides, loading}: rides) {
 
 	const columns: TableColumn<any>[]  = [
 		{
-			name: 'ID',
+			name: 'Colonia',
 			selector: row => row.id
 		},
 		{
@@ -37,16 +37,14 @@ function Rides({defaultRides, count, getRides, loading}: rides) {
 		// }
 	]
 
-	
-
   return (
 		<Table
-		data={defaultRides}
-		columns={columns}
-		getItems={getRides}
-		count={count}
-		loading={loading}
-	/>
+      data={defaultRides}
+      columns={columns}
+      getItems={getRides}
+      count={count}
+      loading={loading}
+    />
   )
 }
 

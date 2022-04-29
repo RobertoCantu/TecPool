@@ -13,10 +13,6 @@ export const PATH_AUTH = {
   verify: path(ROOTS_AUTH, '/verify')
 };
 
-export const PATH_PAGE = {
-  home: '/home'
-};
-
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   general: {

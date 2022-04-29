@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from 'cors';
 import dotenv from "dotenv";
-import { whatsapp } from "./utils/twilio.js";
 
 dotenv.config();
 
@@ -23,13 +22,9 @@ const hostname = 'localhost';
 
 const app = express();
 
-// app.get("/twilio", ()=>{
-//     whatsapp('8134444000', 'Hello World');
-// })
-
 app.use(express.json()); // to accept json data
 app.use(cors({
-    origin: ["http://localhost:3001"],
+    origin: ["http://localhost:3000"],
     methods: ["GET", "POST", 'DELETE', "PUT"],
     credentials: true,
 }));

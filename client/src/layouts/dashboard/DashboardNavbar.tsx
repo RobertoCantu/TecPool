@@ -52,24 +52,13 @@ export default function DashboardNavbar({ onOpenSidebar }: DashboardNavbarProps)
     <RootStyle
       sx={{
         ...(isCollapse && {
-          width: { lg: `calc(100% - ${COLLAPSE_WIDTH}px)` }
+          width: { lg: `calc(100% - ${COLLAPSE_WIDTH}px)` },
         })
       }}
     >
       <ToolbarStyle>
-        {/* <MHidden width="lgUp">
-          <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
-            <Icon icon={menu2Fill} />
-          </IconButton>
-        </MHidden> */}
-
-        <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
-
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          {/* <LanguagePopover /> */}
-          <NotificationsPopover />
-          <ContactsPopover />
           <AccountPopover />
         </Stack>
       </ToolbarStyle>

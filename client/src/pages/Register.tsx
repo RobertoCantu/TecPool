@@ -46,7 +46,7 @@ function Register() {
                 ¡Comienza tu viaje hoy!
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
-                Llena el formulario para crear tu cuenta
+                Completa la siguiente información para crear tu cuenta
               </Typography>
             </Box>
           </Box>

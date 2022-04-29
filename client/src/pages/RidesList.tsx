@@ -1,86 +1,161 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom';
 
 // UI
 
-import {Card, Button } from '@mui/material';
-import { Icon } from '@iconify/react';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import {Card, Button, Box, Stack } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { DataGrid, GridColumns } from '@mui/x-data-grid';
 
 // Components
 
-import Rides from '../components/RidesTable';
+import RidesTable from '../components/RidesTable';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
-import MapInput from '../components/inputs/MapInput';
+import RegisterForm  from '../components/authentication/RegisterForm'
+import { Modal } from '../components/shared/Modal';
 
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
 
-const RidesList: React.FC = () => {
-  
-    // const [sports, setSports] = useState<SportType[]>();
-    //   const [count, setCount] = useState(0);
-      const [loadingTable, setLoadingTable] = useState(false);
-
-    //   const getSports = async (rowsPerPage:number,page:number,searchValue:string) => {
-    //     setLoadingTable(true);
-    //     try {
-    //       const accessToken = window.localStorage.getItem('accessToken');
-    //       const response = await fetchSports(accessToken,
-    //                                         rowsPerPage, page, searchValue);
-    //       console.log(response);
-    //       const {sports, count} = response;
-    //       setSports(sports);
-    //       setCount(count);
-    //       setLoadingTable(false);
-    //     } catch(err) {
-    //       console.log(err);
-    //     }
-    //   }
-
-    const getRides = () => {
-
-    }
-    const rides = [
-        {
-            id: '1',
-            driver: 'Pepito',
-            rating: '5',
-            availability: 'Si'
-        }
-    ]
-
-      return (
-        <>
-          <HeaderBreadcrumbs
-            heading="Lista de Viajes"
-            links={[
-              { name: 'Dashboard', href: PATH_DASHBOARD.root },
-              { name: 'Lista' }
-            ]}
-            action={
-              <Button
-                variant="contained"
-                component={RouterLink}
-                to={PATH_DASHBOARD.root}
-                startIcon={<Icon icon={plusFill} />}
-              >
-                Agregar viaje
-              </Button>
-            }
-          />
-          <Card>
-            <Rides
-              defaultRides={rides}
-              count={rides.length}
-              getRides={getRides}
-              loading= {loadingTable}
-            />
-          </Card>
-          <MapInput />
-        </>
-      )
+const centerColumns = (cellValues: any) => {
+  return (
+    <div
+      style={{
+        fontSize: 16,
+        width: "100%",
+        textAlign: "center"
+      }}
+    >
+      {cellValues.value}
+    </div>
+  );
 }
 
-export default RidesList
+const columns: GridColumns = [
+  { field: 'id',
+    headerName: 'Colonia',
+    flex: 1,
+    headerAlign: 'center',
+    renderCell: (cellValues) => centerColumns(cellValues)
+  },
+  {
+    field: 'driver',
+    headerName: 'Conductor',
+    flex: 1,
+    editable: false,
+    sortable: false,
+    headerAlign: 'center',
+    renderCell: (cellValues) => centerColumns(cellValues)
+  },
+  {
+    field: 'gasoline',
+    headerName: 'Requiere gasolina',
+    type: 'boolean',
+    flex: 1,
+    editable: true,
+    sortable: false,
+    headerAlign: 'center',
+  },
+  {
+    field: 'availableSeats',
+    headerName: 'Asientos disponibles',
+    type: 'number',
+    flex: 1,
+    editable: true,
+    sortable: false,
+    headerAlign: 'center',
+    renderCell: (cellValues) => centerColumns(cellValues)
+  },
+];
+
+// TODO: quitar cuando se traigan de db
+const dummyRows = [
+  { id: 1, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 2, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 4, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 3, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 5, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 6, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 7, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 8, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 9, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 10, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 11, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 12, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 13, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 14, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 15, driver: 'Snow', gasoline: true, availableSeats: 4 },
+  { id: 16, driver: 'Snow', gasoline: true, availableSeats: 4 },
+];
+
+// Define row type
+type Row = {
+  id: number;
+  driver: string;
+  gasoline: boolean;
+  availableSeats: number;
+}
+
+export default function RidesList() {
+  const [routes, setRoutes] = useState<Row[]>([])
+  const [open, setOpen] = useState(false);
+
+  // Open modal
+  const handleOpen = () => setOpen(true);
+  // Close modal
+  const handleClose = () => setOpen(false);
+
+  // On load component, grab all available routes from db
+  useEffect(() => {
+    setRoutes(dummyRows)
+  }, []);
+
+  return (
+    <Stack sx={{height: '100%'}}>
+      <HeaderBreadcrumbs
+        heading="Rutas Disponibles"
+        links={[]}
+      />
+      <Card style={{ height: '100%', width: '100%' }}>
+        <Box sx={{ height: '100%'}}>
+          <DataGrid
+            rows={routes}
+            columns={columns}
+            pageSize={6}
+            rowsPerPageOptions={[6]}
+            checkboxSelection
+            disableSelectionOnClick
+            onRowClick={(e) => {
+              console.log("push -> /roles/");
+            }}
+          />
+        </Box>
+      </Card>
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{ mt: 8, alignSelf: 'flex-end'}}
+        onClick={handleOpen}
+      >
+        Agregar ruta
+      </Button>
+      <Modal
+        CTA={
+          <Button
+            fullWidth
+            size='large'
+            variant="contained"
+            sx={{ mt: 8 }}
+          >
+            Guardar
+          </Button>
+        }
+        title='Agregar Nueva Ruta'
+        dialogContent={RegisterForm}
+        open={open}
+        close={handleClose}
+      />
+    </Stack>
+  );
+}

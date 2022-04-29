@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup'
 
@@ -18,6 +18,9 @@ import useAuth from '../../hooks/useAuth';
 // Utils
 
 import { PATH_DASHBOARD } from '../../routes/paths';
+import { PASSWORD_REGEX, PHONE_REGEX, LASTNAME_REGEX } from '../../utils/regex';
+
+// Define types
 
 type InitialValues = {
   email: string;
@@ -27,21 +30,23 @@ type InitialValues = {
   phone: string;
   afterSubmit?: string;
   };
+
+// Configure Yup validations
   
 const RegisterSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, 'Demasiado Corto!')
-    .max(50, 'Demasiado Largo!')
-    .required('Se requiere el primer nombre'),
-  lastName: Yup.string().min(2, 'Demasiado Corto!').max(50, 'Demasiado Largo!').required('Se requiere el apellido'),
-  email: Yup.string().email('El correo debe ser una direccion de correo valida').required('Se requiere el email'),
-  phone: Yup.string().required('Se requiere el numero telefonico'),
-  password: Yup.string().required('Se requiere una contraseña')
-});
+  firstName: Yup.string().min(2, 'El nombre es muy corto').required('Se requiere un nombre'),
+  lastName: Yup.string().required('Se requiere un apellido').matches(LASTNAME_REGEX, "Se requieren los dos apellidos"),
+  email: Yup.string().email('El correo debe ser una direccion de correo valida').required('Se requiere un correo'),
+  phone: Yup.string().min(10, 'El número telefónico debe ser de 10 dígitos').required('Se requiere un teléfono'),
+  password: Yup.string().required('Se requiere una contraseña').matches(PASSWORD_REGEX,
+    "La contraseña de be tener 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y un carácter especial"
+    ),
+  });
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const context = useAuth();
   const {register} = context;
 
@@ -57,15 +62,14 @@ function RegisterForm() {
           lastName: '',
           email: '',
           phone: '',
-          password: ''
+          password: '',
         }}
         validationSchema= {RegisterSchema}
         onSubmit={async (
           values: InitialValues,
-          { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
+          { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            console.log(values);
             await register(values.firstName, values.lastName, values.email, values.phone, values.password);
             navigate(PATH_DASHBOARD.root);
           } catch (error:any){
@@ -76,14 +80,14 @@ function RegisterForm() {
           }
         }}
       >
-        {({handleChange, values, errors, touched, isSubmitting}) => (
+        {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
             <Stack spacing={2}>
               <TextField
                   fullWidth
                   autoComplete="firstName"
                   type="text"
-                  label="Primer Nombre"
+                  label="Nombre(s)"
                   name= "firstName"
                   value = {values.firstName}
                   onChange = {handleChange}
@@ -94,7 +98,7 @@ function RegisterForm() {
                   fullWidth
                   autoComplete="lastName"
                   type="text"
-                  label="Apellido"
+                  label="Apellidos"
                   name= "lastName"
                   value = {values.lastName}
                   onChange = {handleChange}
@@ -105,7 +109,7 @@ function RegisterForm() {
                   fullWidth
                   autoComplete="email"
                   type="email"
-                  label="Correo electronico"
+                  label="Correo electrónico"
                   name= "email"
                   value = {values.email}
                   onChange = {handleChange}
@@ -116,10 +120,15 @@ function RegisterForm() {
                   fullWidth
                   autoComplete="username"
                   type="text"
-                  label="Numero telefónico"
+                  label="Celular"
                   name= "phone"
                   value = {values.phone}
-                  onChange = {handleChange}
+                  inputProps={{ maxLength: 10 }}
+                  onChange={e => {
+                    e.preventDefault();
+                    const value = e.target.value.replace(PHONE_REGEX, "")
+                    setFieldValue("phone", value);
+                  }}
                   error={Boolean(touched.phone && errors.phone)}
                   helperText={touched.phone && errors.phone}
                 />
@@ -144,11 +153,11 @@ function RegisterForm() {
                   helperText={touched.password && errors.password}
                 />
                 <LoadingButton
-                fullWidth
-                size='large'
-                type='submit'
-                variant='contained'
-                loading={isSubmitting}
+                  fullWidth
+                  size='large'
+                  type='submit'
+                  variant='contained'
+                  loading={isSubmitting}
                 >
                   Registrarse
                 </LoadingButton>
