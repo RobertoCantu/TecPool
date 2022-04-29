@@ -156,7 +156,8 @@ function AuthProvider({children} : {children: ReactNode}){
         }
       })
     } catch(error) {
-      console.log(error)
+      console.log(error);
+      return Promise.reject(error)
     }
   }
 

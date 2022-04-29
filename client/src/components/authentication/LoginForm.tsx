@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import * as Yup from 'yup'
 
 // UI
-
+import closeFill from '@iconify/icons-eva/close-fill';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Stack, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // Hooks
@@ -18,6 +19,8 @@ import useAuth from '../../hooks/useAuth';
 // Utils
 
 import { PATH_DASHBOARD } from '../../routes/paths';
+import { MIconButton } from '../@material-extend';
+
 
 interface InitialValues {
   email: string;
@@ -35,6 +38,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const context = useAuth();
   const {login} = context;
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const onClickShowPassword = () => {
     setShowPassword((prev) => !prev)
@@ -54,18 +58,26 @@ export default function LoginForm() {
         ) => {
           try {
             await login(values.email, values.password);
-            navigate(PATH_DASHBOARD.root);
+            enqueueSnackbar('Login success', {
+              variant: 'success',
+              action: (key) => (
+                <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+                  <Icon icon={closeFill} />
+                </MIconButton>
+              )
+            });
+            // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
-            console.log(error.response.data.message)
             resetForm();
             //Falta agregar useRef
-            setErrors({ afterSubmit: error.response.data.message });
+            setErrors({ afterSubmit: error.message });
           }
         }}
       >
         {({handleChange, values, errors, touched, isSubmitting}) => (
           <Form>
             <Stack spacing={2}>
+              {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
               <TextField
                 fullWidth
                 autoComplete="email"

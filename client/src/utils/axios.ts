@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use(
       window.location.assign("/auth/logout");
     }
 
-    Promise.reject((error.response && error.response.data) || 'Something went wrong')
+    return Promise.reject((error.response && error.response.data) || 'Something went wrong')
   }
 );
 

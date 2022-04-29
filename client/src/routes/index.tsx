@@ -1,4 +1,4 @@
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
 
 // Pages and layouts
 
@@ -65,7 +65,7 @@ export default function Router() {
           <AddRoute />
         )
       },
-      // { path: '/', element: <Navigate to="/auth/login" replace /> }
+      { path: '/', element: <Navigate to="/auth/login" replace /> }
     ])
   }
   
