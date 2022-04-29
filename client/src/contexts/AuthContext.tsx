@@ -156,33 +156,39 @@ function AuthProvider({children} : {children: ReactNode}){
         }
       })
     } catch(error) {
-      console.log(error);
       return Promise.reject(error)
     }
   }
 
   const register = async(firstName: string, lastName: string,
                          email:string, phone:string, password: string) =>{
-    const response:any = await authRegister(firstName, lastName, email, phone, 
-                                  password);
-    console.log(response);                           
-    const { token } = response;
-		const user = {
-			"name": response.name,
-			"lastName": response.lastName,
-			"email": response.email,
-			"phone": response.phone,
-		}
-    //Set Jwt in local storage
-    window.localStorage.setItem('accessToken',token);
-    window.localStorage.setItem('user', JSON.stringify(user));
 
-    dispatch({
+    try{
+      const response:any = await authRegister(firstName, lastName, email, phone, 
+        password);
+      console.log(response);                           
+      const { token } = response;
+      const user = {
+      "name": response.name,
+      "lastName": response.lastName,
+      "email": response.email,
+      "phone": response.phone,
+      }
+      //Set Jwt in local storage
+      window.localStorage.setItem('accessToken',token);
+      window.localStorage.setItem('user', JSON.stringify(user));
+
+      dispatch({
       type: Types.Register,
       payload: {
-        user
+      user
       }
-    })
+      })
+    } catch(error:any){
+      console.log(error);
+      return Promise.reject(error)
+    }
+    
   }
 
   const logout = async () => {
