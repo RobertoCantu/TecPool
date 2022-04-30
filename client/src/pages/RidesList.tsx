@@ -13,6 +13,7 @@ import RidesTable from '../components/RidesTable';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
 import RegisterForm  from '../components/authentication/RegisterForm'
 import { Modal } from '../components/shared/Modal';
+import TableIcons from '../components/TableIcons';
 
 // Utils
 
@@ -66,6 +67,11 @@ const columns: GridColumns = [
     sortable: false,
     headerAlign: 'center',
     renderCell: (cellValues) => centerColumns(cellValues)
+  },
+  {
+    field: 'actions',
+    type: 'actions',
+    renderCell: (cellValues) => <TableIcons/>
   },
 ];
 
