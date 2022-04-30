@@ -1,12 +1,29 @@
 import {useContext } from 'react'
-// material
+
+// UI
+
 import { createStyles, makeStyles } from '@mui/styles';
 import { Table, TableCell, TableBody, TableRow, Card, CardContent, Link,Box, Grid, Typography} from '@mui/material';
-// context
+
+// Utils
 import useAuth from '../hooks/useAuth';
+
+
 function UserCard() {
+
   const classes = useStyles();
   const { user } = useAuth();
+
+  const message = '¡Hola! Me gustaría separar un lugar para el ride al Tec.'
+
+  const didTapPhoneNumber = () => {
+    if(user){
+      window.open(
+        `https://wa.me/+${user.phone}?text=${message}`,
+        '_blank'
+      )
+    }
+  }
 
   return (
     <div>
@@ -27,8 +44,12 @@ function UserCard() {
                   <TableCell>{user.email}</TableCell>
                 </TableRow>
                 <TableRow className={classes.tableRow}>
-                  <TableCell className={classes.tableLabel}>Telefono</TableCell>
-                  <TableCell>{user.phone}</TableCell>
+                  <TableCell className={classes.tableLabel}>
+                    Telefono
+                  </TableCell>
+                  <TableCell onClick={() =>didTapPhoneNumber()}>
+                    {user.phone}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>

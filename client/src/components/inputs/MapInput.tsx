@@ -27,7 +27,8 @@ type MapProps = {
   width: number,
   error: boolean,
   helperText: string  | boolean | undefined,
-  setAddress: (value: string) => void
+  setAddress: (value: string) => void,
+  defaultAddress?: string,
 }
 
 export const MapInput = ({height, width, setAddress, error, helperText}:MapProps) => {

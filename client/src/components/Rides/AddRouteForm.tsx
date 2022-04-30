@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 
 // Components
 
-import {MapInput} from '../inputs/MapInput';
+import { MapInput } from '../inputs/MapInput';
 
 // UI
 
@@ -78,7 +78,13 @@ export default function AddRouteForm() {
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
             <Stack spacing={2}> 
-              {/* <MapInput/> */}
+              {/*<MapInput
+                height={100}
+                width={100}
+                setAddress={value => setFieldValue('address', value)}
+                error={Boolean(touched.address && errors.address)} // el .address se cambia por la variable que quieran
+                helperText={touched.address && errors.address}
+              />*/}
               <TextField
                 fullWidth
                 autoComplete="hora"
