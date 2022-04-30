@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react';
+import { useSnackbar } from 'notistack';
 // routes
 import { PATH_DASHBOARD } from '../routes/paths';
 import { Link as RouterLink } from 'react-router-dom';
@@ -6,11 +7,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import {Box, Link, Dialog, DialogTitle, DialogContent, DialogContentText,
         DialogActions, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { MIconButton } from './@material-extend';
+
 // icons
 import { Icon } from '@iconify/react';
 import eyeIcon from '@iconify/icons-eva/eye-outline';
 import trash from '@iconify/icons-eva/trash-2-outline';
 import edit from '@iconify/icons-eva/edit-2-outline';
+import closeFill from '@iconify/icons-eva/close-fill';
+
+// services
+import { deleteRouteById } from '../services/routesService';
 
 // interfaces 
 interface data {
@@ -30,7 +38,33 @@ interface GeneralType {
 
 function TableIcons({data, tableName}: data) {
     const classes = useStyles();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
+    const [deleteRide, setDeleteRide] = useState(false);
+    const rideId = data.id;
+
+    const handleDeleteSubmit = () => {
+      setDeleteRide(true);
+      const getRideById = async () => {
+        try {
+          const accessToken = window.localStorage.getItem('accessToken');
+          const response: any = await deleteRouteById((rideId));
+          enqueueSnackbar('Ruta eliminada correctamente', {
+            variant: 'success',
+            action: (key) => (
+              <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+                <Icon icon={closeFill} />
+              </MIconButton>
+            )
+          });
+          console.log(response);
+        } catch(err){
+          console.log(err);
+        }
+        setDeleteRide(false);
+      };
+      getRideById();
+    }
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -98,9 +132,14 @@ function TableIcons({data, tableName}: data) {
             <Button onClick={handleClose}>
               Cancelar
             </Button>
-            <Button onClick={handleClose} autoFocus>
-              Aceptar
-            </Button>
+            <LoadingButton
+              size="small"
+              onClick={handleDeleteSubmit}
+              variant="contained"
+              loading={deleteRide}
+            >
+              Continuar
+            </LoadingButton> 
           </DialogActions>
         </Dialog>
       </Box>
