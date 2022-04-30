@@ -79,7 +79,7 @@ export const MapInput = ({height, width, setAddress, error, helperText}:MapProps
         <Autocomplete onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}>
           <TextField error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
         </Autocomplete>
-        <Box sx={{ height: 100, width: 100 }}>
+        <Box sx={{ height: height, width: width }}>
           <GoogleMap
             center={center}
             zoom={15}

@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 // Components
 
 import { MapInput } from '../inputs/MapInput';
+import { TimeInput } from '../inputs/TimeInput';
 
 // UI
 
@@ -13,6 +14,7 @@ import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
+import { FormGroup, FormControlLabel, Checkbox, Select, SelectChangeEvent, FormControl, InputLabel, MenuItem, Box, ListItemText } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // Hooks
@@ -23,6 +25,7 @@ import useAuth from '../../hooks/useAuth';
 
 import { PATH_DASHBOARD } from '../../routes/paths';
 import AddRoute from '../../pages/AddRoute';
+import Container from '../../theme/overrides/Container';
 
 interface InitialValues {
   direccion: string;
@@ -47,7 +50,10 @@ const AddRouteSchema = Yup.object().shape({
 export default function AddRouteForm() {
   const navigate = useNavigate();
   const context = useAuth();
+  const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  
   //const {addRoute} = context;
+  //const [personName, setPersonName] = React.useState<string[]>([]);
 
   return (
     <div>
@@ -77,47 +83,75 @@ export default function AddRouteForm() {
       >
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
-            <Stack spacing={2}> 
-              {/*<MapInput
-                height={100}
-                width={100}
-                setAddress={value => setFieldValue('address', value)}
-                error={Boolean(touched.address && errors.address)} // el .address se cambia por la variable que quieran
-                helperText={touched.address && errors.address}
-              />*/}
-              <TextField
-                fullWidth
-                autoComplete="hora"
-                type="number"
-                label="Hora"
-                name= "hora"
-                value = {values.hora}
-                onChange = {handleChange}
-                error={Boolean(touched.hora && errors.hora)}
-                helperText={touched.hora && errors.hora}
+            <Stack spacing={2}>
+              <FormControl sx={{ m: 1, width: 300 }}>
+                <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+                <Select
+                  labelId="demo-multiple-checkbox-label"
+                  id="demo-multiple-checkbox"
+                  multiple
+                 // value={personName}
+                  onChange={handleChange}
+                 // input={<OutlinedInput label="Tag" />}
+                //  renderValue={(selected) => selected.join(', ')}
+                //  MenuProps={MenuProps}
+                >
+                  {/*dias.map((dia) => (
+                    <MenuItem key={dia} value={dia}>
+                      <Checkbox checked={personName.indexOf(dia) > -1} />
+                      <ListItemText primary={dia} />
+                    </MenuItem>
+                  ))*/}
+                </Select>
+              </FormControl>
+              <Stack direction="row" spacing={2}>
+                <Box
+                  sx={{
+                    width: 200,
+                    height: 70
+                  }}
+                >
+                  {/*<TimeInput
+                    setHour={value => setFieldValue('hora', value)}
+                    setMinutes={value => setFieldValue('minutos', value)}                   error={Boolean(touched.hora && errors.hora && touched.minutos && errors.minutos)}
+                    helperText={touched.hora && errors.hora && touched.minutos && errors.minutos}
+                  />*/}
+                </Box>
+                <Box
+                  sx={{
+                    width: 100,
+                    height: 70
+                  }}
+                >
+                  <FormControl fullWidth>
+                    <InputLabel id="select-asientos">Asientos</InputLabel>
+                    <Select
+                      labelId="select-label-asientos"
+                      id="select-asientos"
+                      value={values.asientos}
+                      label="Asientos"
+                      //setAddress={value => setFieldValue('direccion', value)}
+                    >
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Stack>
+              <MapInput
+                height={300}
+                width={300}
+                setAddress={value => setFieldValue('direccion', value)}
+                error={Boolean(touched.direccion && errors.direccion)} // el .address se cambia por la variable que quieran
+                helperText={touched.direccion && errors.direccion}
               />
-              <TextField
-                fullWidth
-                autoComplete="minutos"
-                type="number"
-                label="Minutos"
-                name= "minutos"
-                value = {values.minutos}
-                onChange = {handleChange}
-                error={Boolean(touched.minutos && errors.minutos)}
-                helperText={touched.minutos && errors.minutos}
-              />
-              <TextField
-                fullWidth
-                autoComplete="asientos"
-                type="asientos"
-                label="Correo electrónico"
-                name= "asientos"
-                value = {values.asientos}
-                onChange = {handleChange}
-                error={Boolean(touched.asientos && errors.asientos)}
-                helperText={touched.asientos && errors.asientos}
-              />
+              <FormGroup>
+                <FormControlLabel control={<Checkbox />} label="Apoyo para la gasolina" />
+              </FormGroup>
               <LoadingButton
               fullWidth
               size='large'
