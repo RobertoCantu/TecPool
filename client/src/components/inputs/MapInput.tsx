@@ -30,8 +30,8 @@ type Coordinates = {
 type MapProps = {
   height: number,
   width: number,
-  error: boolean,
-  helperText: string  | boolean | undefined,
+  error?: boolean,
+  helperText?: string  | boolean | undefined,
   setAddress: (value: string) => void,
   defaultAddress?: string, // For calculating a route on mount
 }
