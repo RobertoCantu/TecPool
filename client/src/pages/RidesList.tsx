@@ -13,10 +13,16 @@ import RidesTable from '../components/RidesTable';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
 import RegisterForm  from '../components/authentication/RegisterForm'
 import { Modal } from '../components/shared/Modal';
+import TableIcons from '../components/TableIcons';
 
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
+
+// Services 
+
+// services
+import { getRoutes } from '../services/routesService';
 
 const centerColumns = (cellValues: any) => {
   return (
@@ -40,7 +46,7 @@ const columns: GridColumns = [
     renderCell: (cellValues) => centerColumns(cellValues)
   },
   {
-    field: 'driver',
+    field: 'conductor',
     headerName: 'Conductor',
     flex: 1,
     editable: false,
@@ -66,6 +72,11 @@ const columns: GridColumns = [
     sortable: false,
     headerAlign: 'center',
     renderCell: (cellValues) => centerColumns(cellValues)
+  },
+  {
+    field: 'actions',
+    type: 'actions',
+    renderCell: (cellValues) => <TableIcons data={cellValues}/>
   },
 ];
 
@@ -108,7 +119,18 @@ export default function RidesList() {
 
   // On load component, grab all available routes from db
   useEffect(() => {
-    setRoutes(dummyRows)
+
+    const getRides = async () => {
+      try {
+        const accessToken = window.localStorage.getItem('accessToken');
+        const response: any = await getRoutes();
+        console.log(response);
+        setRoutes(response);
+      } catch(err){
+        console.log(err);
+      }
+    };
+    getRides();
   }, []);
 
   return (
@@ -122,6 +144,7 @@ export default function RidesList() {
           <DataGrid
             rows={routes}
             columns={columns}
+            getRowId={(row) => row._id}
             pageSize={6}
             rowsPerPageOptions={[6]}
             checkboxSelection

@@ -4,7 +4,7 @@ import * as Yup from 'yup'
 
 // Components
 
-import MapInput from '../inputs/MapInput';
+import {MapInput} from '../inputs/MapInput';
 
 // UI
 
@@ -78,7 +78,7 @@ export default function AddRouteForm() {
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
             <Stack spacing={2}> 
-              <MapInput/>
+              {/* <MapInput/> */}
               <TextField
                 fullWidth
                 autoComplete="hora"

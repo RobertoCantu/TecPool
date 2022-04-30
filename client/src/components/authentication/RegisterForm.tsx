@@ -1,14 +1,16 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 import * as Yup from 'yup'
 
 // UI
 
+import closeFill from '@iconify/icons-eva/close-fill';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Stack, IconButton, InputAdornment, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 // Hooks
@@ -19,6 +21,7 @@ import useAuth from '../../hooks/useAuth';
 
 import { PATH_DASHBOARD } from '../../routes/paths';
 import { PASSWORD_REGEX, PHONE_REGEX, LASTNAME_REGEX } from '../../utils/regex';
+import { MIconButton } from '../@material-extend';
 
 // Define types
 
@@ -46,6 +49,8 @@ const RegisterSchema = Yup.object().shape({
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
 
   const context = useAuth();
   const {register} = context;
@@ -71,18 +76,27 @@ function RegisterForm() {
         ) => {
           try {
             await register(values.firstName, values.lastName, values.email, values.phone, values.password);
-            navigate(PATH_DASHBOARD.root);
+            enqueueSnackbar('¡Creación de cuenta exitosa!', {
+              variant: 'success',
+              action: (key) => (
+                <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+                  <Icon icon={closeFill} />
+                </MIconButton>
+              )
+            });
+           // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
-            console.log(error.response.data.message)
+            console.log(error.message)
             resetForm();
             //Falta agregar useRef
-            setErrors({ afterSubmit: error.response.data.message });
+            setErrors({ afterSubmit: error.message });
           }
         }}
       >
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
           <Form>
             <Stack spacing={2}>
+              {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
               <TextField
                   fullWidth
                   autoComplete="firstName"

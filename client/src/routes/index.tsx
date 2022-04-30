@@ -1,4 +1,4 @@
-import { useRoutes } from 'react-router-dom';
+import { useRoutes, Navigate } from 'react-router-dom';
 
 // Pages and layouts
 
@@ -12,6 +12,8 @@ import Register from '../pages/Register';
 
 import Logout from '../components/authentication/Logout';
 import AddRoute from '../pages/AddRoute';
+import UserDetails from '../pages/UserDetails';
+import RideDetails from '../pages/RideDetails';
 
 // Guards
 
@@ -57,6 +59,9 @@ export default function Router() {
         children: [
           { path: '/dashboard', element: <RidesList /> },
           { path: 'create', element: <CreateRide /> },
+          { path: 'userDetails', element: <UserDetails /> },
+          { path: 'rides/:rideId', element: <RideDetails /> },
+
         ] 
       },
       {
@@ -65,7 +70,7 @@ export default function Router() {
           <AddRoute />
         )
       },
-      // { path: '/', element: <Navigate to="/auth/login" replace /> }
+      { path: '/', element: <Navigate to="/auth/login" replace /> }
     ])
   }
   

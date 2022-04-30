@@ -24,13 +24,13 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: homeFill,
-    linkTo: '/'
+    linkTo: PATH_DASHBOARD.root
   },
   {
     label: 'Profile',
     icon: personFill,
     // linkTo: PATH_DASHBOARD.user.profile
-    linkTo: '/'
+    linkTo: PATH_DASHBOARD.general.user
   },
 ];
 
