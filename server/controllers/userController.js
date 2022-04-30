@@ -19,7 +19,7 @@ const createUser = asyncHandler(async(req, res) => {
 
   if(userExists){
     res.status(400);
-    throw new Error("User al ready exists on db") // TODO: handle error in a different way
+    throw new Error("Ese correo ya está registrado. Intenta iniciar sesión.")
   }
 
   // Create new user on db
@@ -68,7 +68,7 @@ const authUser = asyncHandler(async (req, res) => {
     });
   } else { // User not found or incorrect password
     res.status(400);
-    throw new Error("Invalid Email or Password");
+    throw new Error("El correo o contraseña son incorrectos.");
   }
 });
 
