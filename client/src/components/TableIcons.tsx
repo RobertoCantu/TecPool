@@ -47,9 +47,8 @@ function TableIcons({data, tableName}: data) {
           underline="none" 
           color="#637381"  
           component={RouterLink} 
-          to={'/'}
-          // to={PATH_DASHBOARD.general[tableName as keyof GeneralType] + 
-          //     `/${data.id}`}
+          to={PATH_DASHBOARD.general.rides + 
+              `/${data.id}`}
         >
           <Icon 
             className={classes.eyeHover} 
@@ -60,8 +59,7 @@ function TableIcons({data, tableName}: data) {
         <Link 
           color="#637381" 
           component={RouterLink} 
-          to={'/'}
-          // to={PATH_DASHBOARD.general[tableName as keyof GeneralType] + `/${data.id}/edit`}
+          to={PATH_DASHBOARD.general.rides + `/${data.id}/edit`}
         >
           <Icon 
             className={classes.editHover} 

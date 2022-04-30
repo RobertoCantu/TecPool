@@ -13,6 +13,7 @@ import Register from '../pages/Register';
 import Logout from '../components/authentication/Logout';
 import AddRoute from '../pages/AddRoute';
 import UserDetails from '../pages/UserDetails';
+import RideDetails from '../pages/RideDetails';
 
 // Guards
 
@@ -59,6 +60,8 @@ export default function Router() {
           { path: '/dashboard', element: <RidesList /> },
           { path: 'create', element: <CreateRide /> },
           { path: 'userDetails', element: <UserDetails /> },
+          { path: 'rides/:rideId', element: <RideDetails /> },
+
         ] 
       },
       {

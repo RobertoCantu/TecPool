@@ -19,6 +19,11 @@ import TableIcons from '../components/TableIcons';
 
 import { PATH_DASHBOARD } from '../routes/paths';
 
+// Services 
+
+// services
+import { getRoutes } from '../services/routesService';
+
 const centerColumns = (cellValues: any) => {
   return (
     <div
@@ -71,7 +76,7 @@ const columns: GridColumns = [
   {
     field: 'actions',
     type: 'actions',
-    renderCell: (cellValues) => <TableIcons/>
+    renderCell: (cellValues) => <TableIcons data={cellValues}/>
   },
 ];
 
@@ -114,7 +119,19 @@ export default function RidesList() {
 
   // On load component, grab all available routes from db
   useEffect(() => {
-    setRoutes(dummyRows)
+
+    const getRides = async () => {
+      try {
+        const accessToken = window.localStorage.getItem('accessToken');
+        const response: any = await getRoutes()
+        const { product } = response;
+        console.log(response);
+        //setRide(product);
+      } catch(err){
+        console.log(err);
+      }
+    };
+    getRides();
   }, []);
 
   return (
