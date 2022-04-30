@@ -41,7 +41,7 @@ export async function createRoute(conductor:string, origen:string, destino:strin
   });
 };
 
-export async function fetchRouteById(id:number) {
+export async function fetchRouteById(id:string) {
   return new Promise(async (resolve,reject) => {
     const url = `/rutas/${id}`;
     try {
@@ -59,7 +59,7 @@ export async function fetchRouteById(id:number) {
   });
 };
 
-export async function editRouteById(id:number, conductor:string, origen:string, destino:string,
+export async function editRouteById(id:string, conductor:string, origen:string, destino:string,
   horaInicio:string, minutoInicio:string, horaLlegada:string, minutoLlegada:string) {
   return new Promise(async (resolve,reject) => {
     const url = `/rutas/${id}`;

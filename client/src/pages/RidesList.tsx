@@ -46,7 +46,7 @@ const columns: GridColumns = [
     renderCell: (cellValues) => centerColumns(cellValues)
   },
   {
-    field: 'driver',
+    field: 'conductor',
     headerName: 'Conductor',
     flex: 1,
     editable: false,
@@ -123,10 +123,9 @@ export default function RidesList() {
     const getRides = async () => {
       try {
         const accessToken = window.localStorage.getItem('accessToken');
-        const response: any = await getRoutes()
-        const { product } = response;
+        const response: any = await getRoutes();
         console.log(response);
-        //setRide(product);
+        setRoutes(response);
       } catch(err){
         console.log(err);
       }
@@ -145,6 +144,7 @@ export default function RidesList() {
           <DataGrid
             rows={routes}
             columns={columns}
+            getRowId={(row) => row._id}
             pageSize={6}
             rowsPerPageOptions={[6]}
             checkboxSelection

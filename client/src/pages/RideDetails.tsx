@@ -8,7 +8,7 @@ function RideDetails() {
   return (
     <div>
       { rideId ? 
-        <RideCard rideId={parseInt(rideId)}/>
+        <RideCard rideId={(rideId)}/>
       : null }
     </div>
   )
