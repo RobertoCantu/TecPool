@@ -4,9 +4,9 @@ import validator from "validator";
 const Schema = mongoose.Schema;
 
 const rutaSchema = new Schema({
-    conductor: {type: mongoose.SchemaTypes.ObjectId, ref: "Usuario"},
-    origen: {type: String, required: true, validate: validator.isLatLong},
-    destino: {type: String, required: true, validate: validator.isLatLong},
+    conductor: {type: mongoose.SchemaTypes.ObjectId, ref: "User"},
+    origen: {type: String, required: true},
+    destino: {type: String, required: true},
     horaInicio: {type: Number, required: true, min: 0, max: 23},
     minutoInicio: {type: Number, required: true, min: 0, max: 59},
     horaLlegada: {type: Number, required: true, min: 0, max: 23},
