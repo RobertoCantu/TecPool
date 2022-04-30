@@ -1,5 +1,9 @@
 import express from "express";
 
+//Models
+import Ruta from "../models/modeloRuta.js";
+import User from "../models/userModel.js";
+
 // Controllers
 
 import {
@@ -14,58 +18,59 @@ const router = express.Router();
 router.route('/createUser').post(createUser);
 router.route('/login').post(authUser);
 
-/*
+
 router.route('/').get((req, res) => {
-    Usuario.find()
-        .populate('rutas')
+    User.find()
         .then(usuarios => res.json(usuarios))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/').post((req, res) => {
-    const correo = req.body.correo;
-    const pass = req.body.pass;
-    const nombre = req.body.nombre;
-    const apellido = req.body.apellido;
+    const email = req.body.email;
+    const password = req.body.password;
+    const name = req.body.name;
+    const lastName = req.body.lastName;
     const descripcion = req.body.descripcion;
-    const telefono = Number(req.body.telefono);
-    const rutas = [];
+    const phone = Number(req.body.phone);
+    const routes = [];
 
-    const newUsuario = new Usuario({correo, pass, nombre, apellido, descripcion, telefono, rutas});
+    const newUser = new User({email, password, name, lastName, descripcion, phone, routes});
 
-    newUsuario.save()
-        .then(() => res.json('Usuario agregado'))
+    newUser.save()
+        .then(() => res.json('User agregado'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').get((req, res) => {
-    Usuario.findById(req.params.id)
+    User.findById(req.params.id)
+        .populate({path:'routes', strictPopulate: false})
         .then(usuario => res.json(usuario))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').delete((req, res) => {
+  Ruta.deleteMany({conductor: req.params.id});
   User.findByIdAndDelete(req.params.id)
-    .then(usuario => res.json('Usuario borrado'))
+    .then(usuario => res.json('User borrado'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').post((req, res) => {
   User.findById(req.params.id)
     .then(usuario => {
-        usuario.correo = req.body.correo;
-        usuario.pass = req.body.pass;
-        usuario.nombre = req.body.nombre;
-        usuario.apellido = Number(req.body.apellido);
+        usuario.email = req.body.email;
+        usuario.password = req.body.password;
+        usuario.name = req.body.name;
+        usuario.lastName = Number(req.body.lastName);
         usuario.descripcion = Number(req.body.descripcion);
-        usuario.telefono = Number(req.body.telefono);
+        usuario.phone = Number(req.body.phone);
 
         usuario.save()
-            .then(() => res.json('Usuario actualizado'))
+            .then(() => res.json('User actualizado'))
             .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
-*/
+
 
 export default router;

@@ -11,7 +11,6 @@ const router = express.Router();
 
 router.route('/').get((req, res) => {
     Ruta.find()
-        .populate('conductor')
         .then(rutas => res.json(rutas))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -27,8 +26,8 @@ router.route('/').post((req, res) => {
         minutoLlegada: Number(req.body.minutoLlegada)
     })
         .then(ruta => {
-            return User.findById('623d36427bb1f24babdb3051').then(usuario => {
-                usuario.rutas.push(ruta.id);
+            return User.findById(req.body.conductor).then(usuario => {
+                usuario.routes.push(ruta.id);
                 return usuario.save();
             })
         })
@@ -38,6 +37,7 @@ router.route('/').post((req, res) => {
 
 router.route('/:id').get((req, res) => {
     Ruta.findById(req.params.id)
+        .populate('conductor')
         .then(ruta => res.json(ruta))
         .catch(err => res.status(400).json('Error: ' + err));
 });
