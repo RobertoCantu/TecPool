@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@mui/styles';
 
 // UI
@@ -8,6 +8,11 @@ import {Button, TextField, Stack, Box, CircularProgress } from '@mui/material';
 // Utils
 
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer } from '@react-google-maps/api'
+
+const center: Coordinates = {
+  lat: 25.652164527595186,
+  lng: -100.2896687460225,
+};
 
 // MapInput styles
 const useStyles = makeStyles({
@@ -28,10 +33,10 @@ type MapProps = {
   error: boolean,
   helperText: string  | boolean | undefined,
   setAddress: (value: string) => void,
-  defaultAddress?: string,
+  defaultAddress?: string, // For calculating a route on mount
 }
 
-export const MapInput = ({height, width, setAddress, error, helperText}:MapProps) => {
+export const MapInput = ({height, width, setAddress, error, helperText, defaultAddress}:MapProps) => {
   const classes = useStyles();
 
   const [directionsResponse, setDirectionResponse] = useState<google.maps.DirectionsResult | null>(null)
@@ -47,42 +52,41 @@ export const MapInput = ({height, width, setAddress, error, helperText}:MapProps
 
   const onload = (map: google.maps.Map): void => {
     mapRef.current = map;
+    if(defaultAddress){
+      calculateRoute(defaultAddress)
+    }
   }
 
   const onUnMount = (): void => {
     mapRef.current = null;
   }
 
-  const center: Coordinates = {
-    lat: 25.652164527595186,
-    lng: -100.2896687460225,
-  };
-
-  const calculateRoute = async(): Promise<void> => {
-    if(originRef.current?.value === '') return;
+  const calculateRoute = async(defaultAddress?: string): Promise<void> => {
+    if(originRef.current?.value === '' && defaultAddress === '') return;
 
     const directionService = new google.maps.DirectionsService()
     const results = await directionService.route({
-      origin: originRef.current?.value!,
+      origin: defaultAddress || originRef.current?.value!,
       destination: 'Tecnológico de Monterrey, Avenida Eugenio Garza Sada, Tecnológico, Monterrey, Nuevo León, México',
       travelMode: google.maps.TravelMode.DRIVING
     })
     setDirectionResponse(results)
-    setAddress(originRef.current?.value!)
-    console.log("RESULTS", results)
+    setAddress(defaultAddress || originRef.current?.value!)
   }
-  
+
   if(!isLoaded) return <CircularProgress />
 
     return (
       <Stack alignItems= 'center' spacing={4} justifyContent= 'center' sx={{width: '100%'}}>
-        <Autocomplete onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}>
-          <TextField error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
-        </Autocomplete>
+        {!defaultAddress &&
+          <Autocomplete onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}>
+            <TextField error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
+          </Autocomplete>
+        }
         <Box sx={{ height: height, width: width }}>
           <GoogleMap
             center={center}
-            zoom={15}
+            zoom={directionsResponse ? 60 : 15}
             mapContainerStyle={{width:'100%', height: '100%'}}
             onLoad={onload}
             onUnmount={onUnMount}
