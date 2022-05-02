@@ -16,6 +16,7 @@ import CarPool from '../assets/CarPool.png';
 // Uitls
 
 import useAuth from '../hooks/useAuth';
+import { fetchRouteById } from '../services/routesService';
 
 export default function RideDetails() {
   const { user } = useAuth();
@@ -23,18 +24,22 @@ export default function RideDetails() {
 
   const message = '¡Hola! Me gustaría separar un lugar para tu ride al Tec.'
 
-  const didTapPhoneNumber = () => {
-    if(user){
+  const didTapPhoneNumber = async () => {
+    try {
+      const ride : any = await fetchRouteById(rideId!);
+      console.log(ride.conductor.phone)
       window.open(
-        `https://wa.me/+${user.phone}?text=${message}`,
+        `https://wa.me/+52${ride.conductor.phone}?text=${message}`,
         '_blank'
       )
+    } catch(err){
+      console.log(err);
     }
   }
 
   return (
     <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4} justifyContent='center' alignItems={{xs: 'center', lg: 'stretch' }} sx={{height: '100%', position: 'relative', zIndex: 10}}>
-      <Stack sx={{ minWidth: 300, maxWidth: 500, zIndex: 10 }}>
+      <Stack sx ={{ minWidth: 300, maxWidth: 500, zIndex: 10 }}>
         <Typography variant={"h4"} sx={{ textAlign: 'center'}}>Acerca del Ride</Typography>
         <Typography sx={{ mb: 4, color: 'text.secondary' }}>¡Si te interesa este ride no dudes en reservar tu lugar!</Typography>
         {rideId && <RideCard rideId={(rideId)}/>}
