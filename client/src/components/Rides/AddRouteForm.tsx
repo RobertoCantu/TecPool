@@ -37,7 +37,7 @@ interface InitialValues {
   hora: number;
   minutos: number;
   gasolina: boolean;
-  asientos: number;
+  asientos: string;
   days: any;
   afterSubmit?: string;
 };
@@ -79,7 +79,7 @@ export default function AddRouteForm() {
           hora: 0,
           minutos: 0,
           gasolina: false,
-          asientos: 0,
+          asientos: '',
           days: []
         }}
         validationSchema= {AddRouteSchema}
@@ -167,7 +167,9 @@ export default function AddRouteForm() {
                       labelId="select-label-asientos"
                       id="select-asientos"
                       value={values.asientos}
+                      name="asientos"
                       label="Asientos"
+                      onChange={handleChange}
                       //setAddress={value => setFieldValue('direccion', value)}
                     >
                       <MenuItem value={1}>1</MenuItem>
