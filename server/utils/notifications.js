@@ -41,13 +41,13 @@ const notifyEmail = (email) => {
   const transporter = nodemailer.createTransport({
       service: "hotmail",
       auth: {
-          user: 'tecpools@outlook.com',
+          user: 'tecpoolsapp@outlook.com',
           pass: mailPassword,
       },
   });
 
   transporter.sendMail({
-      from: '"TecPools" <tecpools@outlook.com>',
+      from: '"TecPools" <tecpoolsapp@outlook.com>',
       to: email,
       subject: "Bienvenido a TecPools",
       html: `<h1>Bienvenido a TecPools</h1><p>Tu cuenta fue creada exitosamente.

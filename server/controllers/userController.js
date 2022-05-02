@@ -7,6 +7,7 @@ import User from "../models/userModel.js";
 // Utils
 
 import { generateToken } from "../utils/generateToken.js";
+import { notifyEmail } from "../utils/notifications.js";
 
 //@description     Creates the user
 //@route           POST /users/createUser
@@ -41,6 +42,7 @@ const createUser = asyncHandler(async(req, res) => {
       phone: user.phone,
       token: generateToken(user._id), // Send token to frontend for uthenticate user to our backend
     })
+    notifyEmail(user.email)
   } else {
     res.status(400);
     throw new Error("Error ocurred while creating user")

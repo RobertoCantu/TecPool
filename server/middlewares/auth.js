@@ -7,7 +7,7 @@ export const checkAuth = async (req, res, next) => {
         // console.log(token);
 
         const tokenData = await verifyToken(token);
-        console.log(tokenData)
+        //console.log(tokenData)
         if (tokenData.id){
             next();
         } else {
