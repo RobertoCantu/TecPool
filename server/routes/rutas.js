@@ -9,7 +9,7 @@ import User from "../models/userModel.js";
 
 const router = express.Router();
 
-//router.use(checkAuth);
+router.use(checkAuth);
 
 // Endpoints
 
@@ -48,7 +48,7 @@ router.route('/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.route('/:id').delete(checkUser, (req, res) => {
     Ruta.findByIdAndDelete(req.params.id)
         .then(ruta => res.json('Ruta borrada'))
         .catch(err => res.status(400).json('Error: ' + err));
