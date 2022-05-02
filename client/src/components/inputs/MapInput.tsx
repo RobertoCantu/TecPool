@@ -33,14 +33,16 @@ type MapProps = {
   error?: boolean,
   helperText?: string  | boolean | undefined,
   setAddress: (value: string) => void,
+  enableTextInput? : boolean,
   defaultAddress?: string, // For calculating a route on mount
 }
 
-export const MapInput = ({height, width, setAddress, error, helperText, defaultAddress}:MapProps) => {
+export const MapInput = ({height, width, setAddress, error, helperText, defaultAddress, enableTextInput}:MapProps) => {
   const classes = useStyles();
 
   const [directionsResponse, setDirectionResponse] = useState<google.maps.DirectionsResult | null>(null)
   const originRef = useRef<HTMLInputElement | null>(null)
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
@@ -78,9 +80,9 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
 
     return (
       <Stack alignItems= 'center' spacing={4} justifyContent= 'center' sx={{width: '100%'}}>
-        {!defaultAddress &&
+        {enableTextInput &&
           <Autocomplete onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}>
-            <TextField error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
+            <TextField value={defaultAddress} error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
           </Autocomplete>
         }
         <Box sx={{ height: height, width: width }}>

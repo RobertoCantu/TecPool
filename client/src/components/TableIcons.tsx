@@ -109,7 +109,7 @@ function TableIcons({data, tableName}: data) {
         <Link 
             color="#637381" 
             component={RouterLink} 
-            to={PATH_DASHBOARD.general.rides + `/${data.id}/edit`}
+            to={PATH_DASHBOARD.general.rides + `/edit/${data.id}`}
           >
             <Icon 
               className={classes.editHover} 

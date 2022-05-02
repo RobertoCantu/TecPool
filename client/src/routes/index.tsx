@@ -11,7 +11,7 @@ import Register from '../pages/Register';
 // Components
 
 import Logout from '../components/authentication/Logout';
-import AddRoute from '../pages/AddRoute';
+import { AddRoute } from '../pages/AddRoute';
 import UserDetails from '../pages/UserDetails';
 import RideDetails from '../pages/RideDetails';
 
@@ -60,14 +60,14 @@ export default function Router() {
           { path: '/dashboard', element: <RidesList /> },
           { path: 'create', element: <CreateRide /> },
           { path: 'profile', element: <UserDetails /> },
-          { path: 'rides/:rideId', element: <RideDetails /> },
+          { path: 'rides/edit/:rideId', element: <AddRoute mainText='editar ruta' secondaryText='modifica' /> },
 
         ] 
       },
       {
         path: 'addRoute',
         element: (
-          <AddRoute />
+          <AddRoute mainText='agregar ruta' secondaryText='escrive'/>
         )
       },
       { path: '/', element: <Navigate to="/auth/login" replace /> }

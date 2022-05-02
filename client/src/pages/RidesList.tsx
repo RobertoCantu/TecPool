@@ -118,8 +118,8 @@ export default function RidesList() {
                 id: element._id,
                 destiny: element.origen,
                 driver: user.name + ' ' + user.lastName,
-                gasoline: true,
-                availableSeats: 4,
+                gasoline: element.gasolina,
+                availableSeats: element.asientos,
               }
               formattedRoutes = [...formattedRoutes, newRoute];
               setRoutes(formattedRoutes)

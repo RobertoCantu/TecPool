@@ -36,7 +36,7 @@ function RideCard({rideId}: RideCardType) {
       }
     };
     getRideById();
-    }, [rideId]);
+  }, [rideId]);
 
     return (
       <div>

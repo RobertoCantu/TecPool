@@ -11,7 +11,7 @@ import { Box, Card, Stack, Container, Typography, Link } from '@mui/material';
 
 // Components
 
-import AddRouteForm from '../components/Rides/AddRouteForm'
+import { RouteForm } from '../components/Rides/RouteForm'
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +30,12 @@ const useStyles = makeStyles({
   }
 });
 
-function AddRoute() {
+type AddRoutProps = {
+  mainText: string,
+  secondaryText: string
+}
+
+export const AddRoute = ({mainText, secondaryText}:AddRoutProps) => {
   const classes = useStyles();
 
   return (
@@ -40,16 +45,15 @@ function AddRoute() {
         <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom>
-                  Nueva Ruta
+                  {mainText}
                 </Typography>
                 <Typography sx={{ color: 'text.secondary' }}>
-                  Ingresa los datos
+                  {secondaryText}
                 </Typography>
               </Box>
             </Stack>
           <Card sx={{padding:5}}>
-            
-            <AddRouteForm/>
+            <RouteForm />
           </Card>
         </div>
       </Container>
@@ -57,5 +61,3 @@ function AddRoute() {
 
   )
 };
-
-export default AddRoute
