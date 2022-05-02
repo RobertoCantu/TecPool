@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup'
+import * as Yup from 'yup';
+
 
 // Components
 
@@ -54,8 +55,9 @@ const AddRouteSchema = Yup.object().shape({
 
 export default function AddRouteForm() {
   const navigate = useNavigate();
-  const context = useAuth();
+  const {user} = useAuth();
   const [selected, setSelected] = useState<any>([]);
+
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   const isAllSelected =
   dias.length > 0 && selected.length === dias.length;
@@ -90,7 +92,7 @@ export default function AddRouteForm() {
             // extract values
            const {direccion, hora, minutos, gasolina, asientos, days } = values;
           //  await addRoute(values.direccion, values.hora, values.minutos, values.gasolina, values.asientos);
-          //const response:any = await createRoute()
+          //const response:any = await createRoute(user.id, "tec", direccion,  )
             // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.response.data.message)
