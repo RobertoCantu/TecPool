@@ -23,12 +23,19 @@ const useStyles = makeStyles((theme: any) =>
       borderBottom: '1px solid #eef1f4',
 
       '& td:first-child': {
-        paddingLeft: '0px'
+        paddingLeft: '0px',
+        paddingRight: '0px'
+      },
+      "& td:last-child": {
+        paddingRight: 0
       }
     },
     tableLabel: {
       color: '#7c858e',
-      width: '25%'
+      width: '25%',
+    },
+    lol: {
+      paddingRight: '0px'
     }
   }),
 );
@@ -65,7 +72,7 @@ function RideCard({rideId}: RideCardType) {
                 <TableBody>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Parada</TableCell>
-                    <TableCell>{ride.origen}</TableCell>
+                    <TableCell >{ride.origen}</TableCell>
                   </TableRow>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Conductor</TableCell>
