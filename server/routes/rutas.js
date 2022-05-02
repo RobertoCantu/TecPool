@@ -23,12 +23,13 @@ router.route('/').post((req, res) => {
     Ruta.create({
         conductor: req.body.conductor,
         origen: req.body.origen,
-        horaInicio: Number(req.body.horaInicio),
-        minutoInicio: Number(req.body.minutoInicio),
-        horaLlegada: Number(req.body.horaLlegada),
-        minutoLlegada: Number(req.body.minutoLlegada),
+        //horaInicio: Number(req.body.horaInicio),
+        //minutoInicio: Number(req.body.minutoInicio),
+        horaLlegada: req.body.horaLlegada,
+        //minutoLlegada: Number(req.body.minutoLlegada),
         asientos: Number(req.body.asientos),
-        gasolina: Boolean(req.body.gasolina)
+        gasolina: Boolean(req.body.gasolina),
+        dias: req.body.dias
     })
         .then(ruta => {
             return User.findById(req.body.conductor).then(usuario => {
@@ -58,11 +59,14 @@ router.route('/:id').post((req, res) => {
         .then(ruta => {
             ruta.conductor = req.body.conductor;
             ruta.origen = req.body.origen;
-            ruta.destino = req.body.destino;
-            ruta.horaInicio = Number(req.body.horaInicio);
-            ruta.minutoInicio = Number(req.body.minutoInicio);
-            ruta.horaLlegada = Number(req.body.horaLlegada);
-            ruta.minutoLlegada = Number(req.body.minutoLlegada);
+            //ruta.destino = req.body.destino;
+            //ruta.horaInicio = Number(req.body.horaInicio);
+            //ruta.minutoInicio = Number(req.body.minutoInicio);
+            ruta.horaLlegada = req.body.horaLlegada;
+            ruta.asientos = Number(req.body.asientos);
+            ruta.gasolina = Boolean(req.body.gasolina);
+            ruta.dias = req.body.dias;
+            //ruta.minutoLlegada = Number(req.body.minutoLlegada);
 
             ruta.save()
                 .then(() => res.json('Ruta actualizada'))
