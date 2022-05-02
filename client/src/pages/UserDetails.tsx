@@ -15,7 +15,7 @@ import CarPoolEdit from '../assets/CarPoolEdit.png';
 export default function UserDetails() {
 
   return (
-    <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4} justifyContent='center' alignItems={{xs: 'center', lg: 'stretch' }} sx={{height: '100%', position: 'relative', zIndex: 10}}>
+    <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4} justifyContent='center' alignItems={{xs: 'center', lg: 'stretch' }} sx={{height: '100vh', position: 'relative', mt: '24px'}}>
       <Box sx={{ minWidth: 300, maxWidth: 500, zIndex: 10 }}>
         <Typography variant={"h4"} sx={{mb: 4, textAlign: 'center'}}>Mi Información</Typography>
         <UserCard />

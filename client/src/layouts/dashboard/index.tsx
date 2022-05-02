@@ -38,7 +38,7 @@ export default function DashboardLayout() {
   return (
   <Box sx={{ pb: '72px'}}>
     <DashboardNavbar/>
-    <Container maxWidth="xl" sx={{  display: 'flex', height: '100vh', position:'relative'}}>
+    <Container maxWidth="xl" sx={{  display: 'flex', position:'relative'}}>
       <MainStyle
         sx={{
           transition: theme.transitions.create('margin', {

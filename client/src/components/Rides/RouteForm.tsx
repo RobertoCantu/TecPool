@@ -174,7 +174,7 @@ export const RouteForm = () => {
                       id="select-asientos"
                       value={values.asientos}
                       name="asientos"
-                      label="Asientos"
+                      label="Asientos disponibles"
                       onChange={handleChange}
                     >
                       <MenuItem value={1}>1</MenuItem>

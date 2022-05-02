@@ -33,7 +33,7 @@ export default function UserCard() {
       {user ? 
         <Card sx={{ width: '100%' }}>
           <CardContent>
-            <Table sx={{ minWidth: 650 }}>
+            <Table sx={{ minWidth: 450 }}>
               <TableBody>
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableLabel}>Nombre</TableCell>

@@ -126,34 +126,32 @@ export default function RidesList() {
   }, []);
 
   return (
-    <>
-      <Stack justifyContent='center' sx={{ height: '100%', width:'100%', position: 'relative', zIndex:1}}>
-        <HeaderBreadcrumbs
-          heading="Rutas Disponibles"
-          links={[]}
-        />
-        <Card style={{ height: '60%', width: '100%', padding:'32px 24px 12px' }}>
-          <Box sx={{ height: '100%'}}>
-            <DataGrid
-              rows={routes}
-              columns={columns}
-              getRowId={(row) => row.id}
-              pageSize={6}
-              rowsPerPageOptions={[6]}
-              localeText={tableLanguageOptions}
-              disableSelectionOnClick
-            />
-          </Box>
-        </Card>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          sx={{ mt: 8, alignSelf: 'flex-end'}}
-          onClick={() => navigate(PATH_DASHBOARD.general.rides + '/addRoute')}
-        >
-          Agregar ruta
-        </Button>
-      </Stack>
-    </>
+    <Stack justifyContent='center' sx={{ height: '100vh', width:'100%', position: 'relative', zIndex:1}}>
+      <HeaderBreadcrumbs
+        heading="Rutas Disponibles"
+        links={[]}
+      />
+      <Card style={{ height: '60%', width: '100%', padding:'32px 24px 12px' }}>
+        <Box sx={{ height: '100%'}}>
+          <DataGrid
+            rows={routes}
+            columns={columns}
+            getRowId={(row) => row.id}
+            pageSize={6}
+            rowsPerPageOptions={[6]}
+            localeText={tableLanguageOptions}
+            disableSelectionOnClick
+          />
+        </Box>
+      </Card>
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{ mt: 8, alignSelf: 'flex-end'}}
+        onClick={() => navigate(PATH_DASHBOARD.general.rides + '/addRoute')}
+      >
+        Agregar ruta
+      </Button>
+    </Stack>
   );
 }
