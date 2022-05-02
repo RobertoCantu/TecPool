@@ -39,25 +39,22 @@ export const AddRoute = ({mainText, secondaryText}:AddRoutProps) => {
   const classes = useStyles();
 
   return (
-    <div >
+    <Box sx={{pb: '56px'}}>
       <Container maxWidth="lg">
-       <div >
         <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" gutterBottom>
-                  {mainText}
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>
-                  {secondaryText}
-                </Typography>
-              </Box>
-            </Stack>
-          <Card sx={{padding:5}}>
-            <RouteForm />
-          </Card>
-        </div>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="h4" gutterBottom>
+              {mainText}
+            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>
+              {secondaryText}
+            </Typography>
+          </Box>
+        </Stack>
+        <Card sx={{padding:5}}>
+          <RouteForm />
+        </Card>
       </Container>
-    </div>
-
+    </Box>
   )
 };

@@ -60,19 +60,11 @@ export default function Router() {
           { path: '/dashboard', element: <RidesList /> },
           { path: 'create', element: <CreateRide /> },
           { path: 'profile', element: <UserDetails /> },
-          { path: 'rides/edit/:rideId', element: <AddRoute mainText='editar ruta' secondaryText='modifica' /> },
-
+          { path: 'rides/:rideId', element: <RideDetails /> },
+          { path: 'rides/edit/:rideId', element: <AddRoute mainText='Modifica tu ruta' secondaryText='Modifica los siguientes datos para actualizar tu ruta' /> },
+          { path: 'rides/addRoute', element: <AddRoute mainText='Agrega una nueva ruta' secondaryText='Agrega los siguientes datos para crear tu nueva ruta' /> },
         ] 
-      },
-      {
-        path: 'addRoute',
-        element: (
-          <AddRoute mainText='agregar ruta' secondaryText='escrive'/>
-        )
       },
       { path: '/', element: <Navigate to="/auth/login" replace /> }
     ])
   }
-  
-  // Authentication
-  // const HomePage = Loadable(lazy(() => import('../pages/HomePage')));

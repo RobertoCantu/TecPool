@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // UI
 
@@ -9,10 +9,7 @@ import { DataGrid, GridColumns } from '@mui/x-data-grid';
 
 // Components
 
-import RidesTable from '../components/RidesTable';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
-import RegisterForm  from '../components/authentication/RegisterForm'
-import { Modal } from '../components/shared/Modal';
 import TableIcons from '../components/TableIcons';
 
 // Utils
@@ -97,12 +94,7 @@ type Row = {
 
 export default function RidesList() {
   const [routes, setRoutes] = useState<Row[]>([])
-  const [open, setOpen] = useState(false);
-
-  // Open modal
-  const handleOpen = () => setOpen(true);
-  // Close modal
-  const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
 
   // On load component, grab all available routes from db
   useEffect(() => {
@@ -140,7 +132,7 @@ export default function RidesList() {
           heading="Rutas Disponibles"
           links={[]}
         />
-        <Card style={{ height: '100%', width: '100%', padding:'32px 24px 12px' }}>
+        <Card style={{ height: '60%', width: '100%', padding:'32px 24px 12px' }}>
           <Box sx={{ height: '100%'}}>
             <DataGrid
               rows={routes}
@@ -157,26 +149,10 @@ export default function RidesList() {
           variant="contained"
           startIcon={<AddIcon />}
           sx={{ mt: 8, alignSelf: 'flex-end'}}
-          onClick={handleOpen}
+          onClick={() => navigate(PATH_DASHBOARD.general.rides + '/addRoute')}
         >
           Agregar ruta
         </Button>
-        <Modal
-          CTA={
-            <Button
-              fullWidth
-              size='large'
-              variant="contained"
-              sx={{ mt: 8 }}
-            >
-              Guardar
-            </Button>
-          }
-          title='Agregar Nueva Ruta'
-          dialogContent={RegisterForm}
-          open={open}
-          close={handleClose}
-        />
       </Stack>
     </>
   );

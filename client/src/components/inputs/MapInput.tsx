@@ -41,6 +41,8 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
   const classes = useStyles();
 
   const [directionsResponse, setDirectionResponse] = useState<google.maps.DirectionsResult | null>(null)
+  const [direction, setDirection] = useState(defaultAddress)
+
   const originRef = useRef<HTMLInputElement | null>(null)
 
   const { isLoaded } = useJsApiLoader({
@@ -48,7 +50,7 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY!,
     libraries: ['places'] // enable places API
   })
-
+  
   // Save map in ref if we want to access the map
   const mapRef = useRef<google.maps.Map | null>(null);
 
@@ -65,6 +67,7 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
 
   const calculateRoute = async(defaultAddress?: string): Promise<void> => {
     if(originRef.current?.value === '' && defaultAddress === '') return;
+    //setDirection(defaultAddress || originRef.current?.value!)
 
     const directionService = new google.maps.DirectionsService()
     const results = await directionService.route({
@@ -72,6 +75,7 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
       destination: 'Tecnológico de Monterrey, Avenida Eugenio Garza Sada, Tecnológico, Monterrey, Nuevo León, México',
       travelMode: google.maps.TravelMode.DRIVING
     })
+    console.log("results", results)
     setDirectionResponse(results)
     setAddress(defaultAddress || originRef.current?.value!)
   }
@@ -81,8 +85,10 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
     return (
       <Stack alignItems= 'center' spacing={4} justifyContent= 'center' sx={{width: '100%'}}>
         {enableTextInput &&
-          <Autocomplete onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}>
-            <TextField value={defaultAddress} error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
+          <Autocomplete
+            onPlaceChanged={()=> calculateRoute()} className={classes.autoComplete}
+          >
+            <TextField error={error} helperText={helperText} sx={{width: '100%'}} label="Dirreción de la parada" variant="outlined" inputRef={originRef} onChange={(e) => setAddress(e.target.value)}/>
           </Autocomplete>
         }
         <Box sx={{ height: height, width: width }}>

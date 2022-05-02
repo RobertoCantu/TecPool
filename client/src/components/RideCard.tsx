@@ -3,7 +3,7 @@ import React, { useState, useEffect} from 'react';
 // UI
 
 import { createStyles, makeStyles } from '@mui/styles';
-import { Table, TableCell, TableBody, TableRow, Card, CardContent, Link,Box, Grid, Typography} from '@mui/material';
+import { Table, TableCell, TableBody, TableRow, Card, CardContent, CircularProgress, Box } from '@mui/material';
 
 // Components
 
@@ -13,13 +13,25 @@ import { MapInput } from './inputs/MapInput'
 
 import { fetchRouteById } from '../services/routesService';
 
-// Assets
-
-import CarPool from '../assets/CarPool.png';
-
 interface RideCardType {
   rideId : string
 }
+
+const useStyles = makeStyles((theme: any) =>
+  createStyles({
+    tableRow: {
+      borderBottom: '1px solid #eef1f4',
+
+      '& td:first-child': {
+        paddingLeft: '0px'
+      }
+    },
+    tableLabel: {
+      color: '#7c858e',
+      width: '25%'
+    }
+  }),
+);
 
 function RideCard({rideId}: RideCardType) {
   const [ride, setRide] = useState<any>();
@@ -38,10 +50,15 @@ function RideCard({rideId}: RideCardType) {
     getRideById();
   }, [rideId]);
 
+  const formatDate = (date: string) => {
+    let newDate = new Date(date);
+    let pm = newDate.getHours() >= 12 ? true : false
+    return `${newDate.getHours()}: ${newDate.getMinutes()} ${pm ? 'PM' : 'AM'}`
+  }
+
     return (
-      <div>
+      <Box>
         {ride ? 
-        <>
           <Card sx={{ minWidth: 200, height: '100%', width: '100%', px:'8px'}}>
             <CardContent>
               <Table sx={{ minWidth: 250 }}>
@@ -60,7 +77,7 @@ function RideCard({rideId}: RideCardType) {
                   </TableRow>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Hora de Llegada</TableCell>
-                    <TableCell>{ride.horaLlegada}</TableCell>
+                    <TableCell>{formatDate(ride.horaLlegada)}</TableCell>
                   </TableRow>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Cooperación de gasolina</TableCell>
@@ -79,30 +96,12 @@ function RideCard({rideId}: RideCardType) {
                 </TableBody>
               </Table>
             </CardContent>
-          </Card> 
-        </>
+          </Card>
         : 
-          null
+          <CircularProgress size={80}/>
         }
-      </div>  
+      </Box>  
     )
   }
-
-  const useStyles = makeStyles((theme: any) =>
-    createStyles({
-      tableRow: {
-        borderBottom: '1px solid #eef1f4',
-
-        '& td:first-child': {
-          paddingLeft: '0px'
-        }
-      },
-      tableLabel: {
-        color: '#7c858e',
-        width: '25%'
-      }
-    }),
-  );
-
 
 export default RideCard

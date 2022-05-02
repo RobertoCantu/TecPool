@@ -35,7 +35,8 @@ export default function RideDetails() {
   return (
     <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4} justifyContent='center' alignItems={{xs: 'center', lg: 'stretch' }} sx={{height: '100%', position: 'relative', zIndex: 10}}>
       <Stack sx={{ minWidth: 300, maxWidth: 500, zIndex: 10 }}>
-        <Typography variant={"h4"} sx={{mb: 4, textAlign: 'center'}}>Información del Ride</Typography>
+        <Typography variant={"h4"} sx={{ textAlign: 'center'}}>Acerca del Ride</Typography>
+        <Typography sx={{ mb: 4, color: 'text.secondary' }}>¡Si te interesa este ride no dudes en reservar tu lugar!</Typography>
         {rideId && <RideCard rideId={(rideId)}/>}
         <Button
           variant="contained"
