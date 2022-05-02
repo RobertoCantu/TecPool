@@ -20,7 +20,6 @@ function RideCard({rideId}: RideCardType) {
   useEffect(() => {
     const getRideById = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
         const response: any = await fetchRouteById((rideId))
         console.log("RESPONSE", response);
         setRide(response);
