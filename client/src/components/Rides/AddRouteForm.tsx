@@ -90,9 +90,8 @@ export default function AddRouteForm() {
           try {
             console.log(values)
             // extract values
-           const {direccion, hora, minutos, gasolina, asientos, days } = values;
-          //  await addRoute(values.direccion, values.hora, values.minutos, values.gasolina, values.asientos);
-          //const response:any = await createRoute(user.id, "tec", direccion,  )
+            const {direccion, hora, minutos, gasolina, asientos, days } = values;
+            // const response:any = await createRoute(user.id,  direccion,   )
             // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.response.data.message)

@@ -19,8 +19,9 @@ export async function getRoutes() {
   });
 };
 
-export async function createRoute(conductor:string, origen:string, destino:string,
-  horaInicio:string, minutoInicio:string, horaLlegada:string, minutoLlegada:string) {
+export async function createRoute(conductor:string, origen:string,
+  horaInicio:string, minutoInicio:string, horaLlegada:string, minutoLlegada:string,
+  asientos:string, gasolina:boolean, dias:[]) {
   return new Promise(async (resolve,reject) => {
     const url = '/rutas';
     try {
@@ -28,11 +29,13 @@ export async function createRoute(conductor:string, origen:string, destino:strin
         const response =  await axios.post(url, {
           conductor,
           origen,
-          destino,
           horaInicio,
           minutoInicio,
           horaLlegada,
           minutoLlegada,
+          asientos,
+          gasolina,
+          dias
         });
         resolve(response.data)
     } catch(err){
