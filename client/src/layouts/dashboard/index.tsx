@@ -40,15 +40,12 @@ export default function DashboardLayout() {
 
   return (<>
     <DashboardNavbar/>
-    <Container maxWidth="xl" sx={{  display: 'flex', height: '100vh', overflow: 'hidden', position:'relative'}}>
+    <Container maxWidth="lg" sx={{  display: 'flex', height: '100vh', overflow: 'hidden', position:'relative'}}>
       <MainStyle
         sx={{
           transition: theme.transitions.create('margin', {
             duration: theme.transitions.duration.complex
           }),
-          ...(collapseClick && {
-            ml: '102px'
-          })
         }}
       >
         <Outlet />

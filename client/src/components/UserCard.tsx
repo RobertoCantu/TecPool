@@ -29,15 +29,13 @@ function UserCard() {
     <div>
       {user ? 
       <>
-        <Box>
-        </Box>
-        <Card sx={{ minWidth: 275 }}>
+        <Card sx={{ width: '100%' }}>
           <CardContent>
             <Table sx={{ minWidth: 650 }}>
               <TableBody>
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableLabel}>Nombre</TableCell>
-                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.name + ' ' + user.lastName}</TableCell>
                 </TableRow>
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableLabel}>Email</TableCell>

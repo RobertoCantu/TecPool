@@ -21,10 +21,6 @@ import { PATH_DASHBOARD } from '../routes/paths';
 import { getRoutes } from '../services/routesService';
 import { fetchUserById } from '../services/userService'
 
-// Assets
-
-import CarPool from '../assets/CarPool.png';
-
 const tableLanguageOptions = {
   columnMenuUnsort: "Esta columna no se puede orderar",
   columnMenuSortAsc: "Clasificar en orden ascendente",
@@ -182,20 +178,6 @@ export default function RidesList() {
           close={handleClose}
         />
       </Stack>
-      {/*<Box sx={{position: 'absolute', right: 0, bottom: -42}}>
-        <img
-            src={CarPool}
-            alt='carPool'
-            style={{
-              width: 'auto',
-              height: '500px',
-              //flexGrow: 1,
-              alignSelf: 'flex-end'
-              //margin: '16px',
-              //borderRadius: '8px',
-            }}
-          />
-      </Box>*/}
     </>
   );
 }
