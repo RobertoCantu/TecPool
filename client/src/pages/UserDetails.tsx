@@ -22,13 +22,13 @@ export default function UserDetails() {
       </Box>
       <Box sx={{alignSelf: 'flex-end'}}>
         <img
-            src={CarPoolEdit}
-            alt='carPool'
-            style={{
-              width: 'auto',
-              height: '350px',
-              borderRadius: '16px',
-            }}
+          src={CarPoolEdit}
+          alt='carPool'
+          style={{
+            width: 'auto',
+            height: '350px',
+            borderRadius: '16px',
+          }}
           />
       </Box>
     </Stack>
