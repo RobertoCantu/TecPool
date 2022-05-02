@@ -6,7 +6,7 @@ import User from "../models/userModel.js";
 
 // Utils
 
-import generateToken from "../utils/generateToken.js";
+import { generateToken } from "../utils/generateToken.js";
 
 //@description     Creates the user
 //@route           POST /users/createUser
