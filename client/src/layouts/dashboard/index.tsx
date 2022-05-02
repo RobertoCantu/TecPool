@@ -37,11 +37,10 @@ const MainStyle = styled('div')(({ theme }) => ({
 export default function DashboardLayout() {
   const theme = useTheme();
   const { collapseClick } = useCollapseDrawer();
-  const [open, setOpen] = useState(false);
 
-  return (
+  return (<>
+    <DashboardNavbar/>
     <Container maxWidth="xl" sx={{  display: 'flex', height: '100vh', overflow: 'hidden', position:'relative'}}>
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
       <MainStyle
         sx={{
           transition: theme.transitions.create('margin', {
@@ -55,5 +54,6 @@ export default function DashboardLayout() {
         <Outlet />
       </MainStyle>
     </Container>
+    </>
   );
 }

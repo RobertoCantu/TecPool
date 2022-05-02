@@ -24,7 +24,6 @@ import { fetchUserById } from '../services/userService'
 // Assets
 
 import CarPool from '../assets/CarPool.png';
-import { m } from 'framer-motion';
 
 const tableLanguageOptions = {
   columnMenuUnsort: "Esta columna no se puede orderar",
