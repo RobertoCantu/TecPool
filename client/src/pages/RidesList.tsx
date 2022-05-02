@@ -18,11 +18,17 @@ import TableIcons from '../components/TableIcons';
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
-
-// Services 
-
-// services
 import { getRoutes } from '../services/routesService';
+import { fetchUserById } from '../services/userService'
+
+const tableLanguageOptions = {
+  columnMenuUnsort: "Esta columna no se puede orderar",
+  columnMenuSortAsc: "Clasificar en orden ascendente",
+  columnMenuSortDesc: "Classificar en orden descendente",
+  columnMenuFilter: "Filtrar",
+  columnMenuHideColumn: "Ocultar",
+  columnMenuShowColumns: "Mostrar columnas"
+};
 
 const centerColumns = (cellValues: any) => {
   return (
@@ -39,14 +45,14 @@ const centerColumns = (cellValues: any) => {
 }
 
 const columns: GridColumns = [
-  { field: 'id',
+  { field: 'destiny',
     headerName: 'Colonia',
     flex: 1,
     headerAlign: 'center',
     renderCell: (cellValues) => centerColumns(cellValues)
   },
   {
-    field: 'conductor',
+    field: 'driver',
     headerName: 'Conductor',
     flex: 1,
     editable: false,
@@ -80,29 +86,10 @@ const columns: GridColumns = [
   },
 ];
 
-// TODO: quitar cuando se traigan de db
-const dummyRows = [
-  { id: 1, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 2, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 4, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 3, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 5, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 6, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 7, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 8, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 9, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 10, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 11, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 12, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 13, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 14, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 15, driver: 'Snow', gasoline: true, availableSeats: 4 },
-  { id: 16, driver: 'Snow', gasoline: true, availableSeats: 4 },
-];
-
 // Define row type
 type Row = {
-  id: number;
+  id: string,
+  destiny: string,
   driver: string;
   gasoline: boolean;
   availableSeats: number;
@@ -121,11 +108,24 @@ export default function RidesList() {
   useEffect(() => {
 
     const getRides = async () => {
+      let formattedRoutes: Array<any> = []
+
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
-        const response: any = await getRoutes();
-        console.log(response);
-        setRoutes(response);
+        await getRoutes().then(async (response: any) => {
+          response.map(async (element: any) => {
+            await fetchUserById(element.conductor).then((user: any) => {
+              let newRoute = {
+                id: element._id,
+                destiny: element.origen,
+                driver: user.name + ' ' + user.lastName,
+                gasoline: true,
+                availableSeats: 4,
+              }
+              formattedRoutes = [...formattedRoutes, newRoute];
+              setRoutes(formattedRoutes)
+            })
+          })
+        })
       } catch(err){
         console.log(err);
       }
@@ -134,51 +134,50 @@ export default function RidesList() {
   }, []);
 
   return (
-    <Stack sx={{height: '100%'}}>
-      <HeaderBreadcrumbs
-        heading="Rutas Disponibles"
-        links={[]}
-      />
-      <Card style={{ height: '100%', width: '100%' }}>
-        <Box sx={{ height: '100%'}}>
-          <DataGrid
-            rows={routes}
-            columns={columns}
-            getRowId={(row) => row._id}
-            pageSize={6}
-            rowsPerPageOptions={[6]}
-            checkboxSelection
-            disableSelectionOnClick
-            onRowClick={(e) => {
-              console.log("push -> /roles/");
-            }}
-          />
-        </Box>
-      </Card>
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        sx={{ mt: 8, alignSelf: 'flex-end'}}
-        onClick={handleOpen}
-      >
-        Agregar ruta
-      </Button>
-      <Modal
-        CTA={
-          <Button
-            fullWidth
-            size='large'
-            variant="contained"
-            sx={{ mt: 8 }}
-          >
-            Guardar
-          </Button>
-        }
-        title='Agregar Nueva Ruta'
-        dialogContent={RegisterForm}
-        open={open}
-        close={handleClose}
-      />
-    </Stack>
+    <>
+      <Stack justifyContent='center' sx={{ height: '100%', width:'100%', position: 'relative', zIndex:1}}>
+        <HeaderBreadcrumbs
+          heading="Rutas Disponibles"
+          links={[]}
+        />
+        <Card style={{ height: '100%', width: '100%' }}>
+          <Box sx={{ height: '100%'}}>
+            <DataGrid
+              rows={routes}
+              columns={columns}
+              getRowId={(row) => row.id}
+              pageSize={6}
+              rowsPerPageOptions={[6]}
+              localeText={tableLanguageOptions}
+              disableSelectionOnClick
+            />
+          </Box>
+        </Card>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{ mt: 8, alignSelf: 'flex-end'}}
+          onClick={handleOpen}
+        >
+          Agregar ruta
+        </Button>
+        <Modal
+          CTA={
+            <Button
+              fullWidth
+              size='large'
+              variant="contained"
+              sx={{ mt: 8 }}
+            >
+              Guardar
+            </Button>
+          }
+          title='Agregar Nueva Ruta'
+          dialogContent={RegisterForm}
+          open={open}
+          close={handleClose}
+        />
+      </Stack>
+    </>
   );
 }

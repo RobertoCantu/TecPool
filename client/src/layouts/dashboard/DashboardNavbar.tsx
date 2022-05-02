@@ -1,67 +1,114 @@
-import { Icon } from '@iconify/react';
-import menu2Fill from '@iconify/icons-eva/menu-2-fill';
-// material
-import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
-// hooks
-import useCollapseDrawer from '../../hooks/useCollapseDrawer';
-// components
-// import { MHidden } from '../../components/@material-extend';
-import Searchbar from './Searchbar';
+import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// UI
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
 import AccountPopover from './AccountPopover';
-// import LanguagePopover from './LanguagePopover';
-import ContactsPopover from './ContactsPopover';
-import NotificationsPopover from './NotificationsPopover';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 
-// ----------------------------------------------------------------------
+// Utils
 
-const DRAWER_WIDTH = 280;
-const COLLAPSE_WIDTH = 102;
+import { PATH_DASHBOARD } from '../../routes/paths';
 
-const APPBAR_MOBILE = 64;
-const APPBAR_DESKTOP = 92;
+const pages = ['Inicio'];
 
-const RootStyle = styled(AppBar)(({ theme }) => ({
-  boxShadow: 'none',
-  backdropFilter: 'blur(6px)',
-  WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-  backgroundColor: alpha(theme.palette.background.default, 0.72),
-  [theme.breakpoints.up('lg')]: {
-    width: `calc(100% - ${DRAWER_WIDTH + 1}px)`
-  }
-}));
+const DashboardNavbar = () => {
+  const navigate = useNavigate();
 
-const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
-  minHeight: APPBAR_MOBILE,
-  [theme.breakpoints.up('lg')]: {
-    minHeight: APPBAR_DESKTOP,
-    padding: theme.spacing(0, 5)
-  }
-}));
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
-// ----------------------------------------------------------------------
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
 
-type DashboardNavbarProps = {
-  onOpenSidebar: VoidFunction;
-};
-
-export default function DashboardNavbar({ onOpenSidebar }: DashboardNavbarProps) {
-  const { isCollapse } = useCollapseDrawer();
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   return (
-    <RootStyle
-      sx={{
-        ...(isCollapse && {
-          width: { lg: `calc(100% - ${COLLAPSE_WIDTH}px)` },
-        })
-      }}
-    >
-      <ToolbarStyle>
-        <Box sx={{ flexGrow: 1 }} />
-        <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          <AccountPopover />
-        </Stack>
-      </ToolbarStyle>
-    </RootStyle>
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+          >
+            TecPool
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={() => navigate(PATH_DASHBOARD.root)}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+          >
+            TecPool
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={() => navigate(PATH_DASHBOARD.root)}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <AccountPopover />
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
-}
+};
+export default DashboardNavbar;

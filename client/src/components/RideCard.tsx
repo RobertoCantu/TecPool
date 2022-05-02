@@ -1,10 +1,13 @@
 import React, { useState, useEffect} from 'react';
-// services
-import { fetchRouteById } from '../services/routesService';
-// material
+
+// UI
+
 import { createStyles, makeStyles } from '@mui/styles';
 import { Table, TableCell, TableBody, TableRow, Card, CardContent, Link,Box, Grid, Typography} from '@mui/material';
 
+// Utils
+
+import { fetchRouteById } from '../services/routesService';
 
 interface RideCardType {
   rideId : string
@@ -17,9 +20,8 @@ function RideCard({rideId}: RideCardType) {
   useEffect(() => {
     const getRideById = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
         const response: any = await fetchRouteById((rideId))
-        console.log(response);
+        console.log("RESPONSE", response);
         setRide(response);
       } catch(err){
         console.log(err);

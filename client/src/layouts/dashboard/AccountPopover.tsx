@@ -22,14 +22,13 @@ import MenuPopover from '../../components/MenuPopover';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Inicio',
     icon: homeFill,
     linkTo: PATH_DASHBOARD.root
   },
   {
-    label: 'Profile',
+    label: 'Perfil',
     icon: personFill,
-    // linkTo: PATH_DASHBOARD.user.profile
     linkTo: PATH_DASHBOARD.general.user
   },
 ];

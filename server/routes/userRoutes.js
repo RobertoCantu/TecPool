@@ -9,6 +9,7 @@ import User from "../models/userModel.js";
 import {
   authUser,
   createUser,
+  findUser,
 } from "../controllers/userController.js";
 
 const router = express.Router();
@@ -17,7 +18,7 @@ const router = express.Router();
 
 router.route('/createUser').post(createUser);
 router.route('/login').post(authUser);
-
+router.route('/:id').get(findUser);
 
 router.route('/').get((req, res) => {
     User.find()
@@ -41,13 +42,7 @@ router.route('/').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) => {
-    User.findById(req.params.id)
-        .populate({path:'routes', strictPopulate: false})
-        .then(usuario => res.json(usuario))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
+/*
 router.route('/:id').delete((req, res) => {
   Ruta.deleteMany({conductor: req.params.id});
   User.findByIdAndDelete(req.params.id)
@@ -70,7 +65,7 @@ router.route('/:id').post((req, res) => {
             .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));
-});
+});*/
 
 
 export default router;

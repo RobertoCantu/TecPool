@@ -30,11 +30,6 @@ function Rides({defaultRides, count, getRides, loading}: rides) {
 			name: 'Disponibilidad',
 			selector: row => row.availability
 		},
-		// {
-		// 	name: '',
-		// 	cell: row => <TableIcons data={row} tableName={"products"}/>,
-		// 	width: '120px'
-		// }
 	]
 
   return (

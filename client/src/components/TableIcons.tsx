@@ -1,63 +1,72 @@
 import React, { useState, useEffect} from 'react';
-import { useSnackbar } from 'notistack';
-// routes
-import { PATH_DASHBOARD } from '../routes/paths';
 import { Link as RouterLink } from 'react-router-dom';
-// material
+import { useSnackbar } from 'notistack';
+
+// UI
+
 import { makeStyles } from '@mui/styles';
-import {Box, Link, Dialog, DialogTitle, DialogContent, DialogContentText,
-        DialogActions, Button } from '@mui/material';
+import {Box, Link, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { MIconButton } from './@material-extend';
-
-// icons
 import { Icon } from '@iconify/react';
 import eyeIcon from '@iconify/icons-eva/eye-outline';
 import trash from '@iconify/icons-eva/trash-2-outline';
 import edit from '@iconify/icons-eva/edit-2-outline';
 import closeFill from '@iconify/icons-eva/close-fill';
 
-// services
+// Utils
+
 import { deleteRouteById } from '../services/routesService';
+import { fetchUserById } from '../services/userService'
+import { PATH_DASHBOARD } from '../routes/paths';
+
+// Hooks
+
+import useAuth from '../hooks/useAuth';
 
 // interfaces 
 interface data {
-    data?:any;
-    tableName?:any;
-  };
-
-interface GeneralType {
-    app: string;
-    policies: string;
-    sports: string;
-    certificates: string;
-    createCertificates: string;
-    insureds: string;
-    products: string;
-}
+  data?:any;
+  tableName?:any;
+};
 
 function TableIcons({data, tableName}: data) {
+
     const classes = useStyles();
+    const context = useAuth();
+    const { user } = context;
+
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const [open, setOpen] = useState(false);
     const [deleteRide, setDeleteRide] = useState(false);
     const rideId = data.id;
 
+    useEffect(() => {
+      const getUserRoutes = async () => {
+        if(user) {
+          await fetchUserById(user.id).then((response) => {
+            console.log(response)
+          })
+        }
+      }
+      getUserRoutes()
+    },[user])
+
     const handleDeleteSubmit = () => {
       setDeleteRide(true);
       const getRideById = async () => {
         try {
-          const accessToken = window.localStorage.getItem('accessToken');
-          const response: any = await deleteRouteById((rideId));
-          enqueueSnackbar('Ruta eliminada correctamente', {
-            variant: 'success',
-            action: (key) => (
-              <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-                <Icon icon={closeFill} />
-              </MIconButton>
-            )
-          });
-          console.log(response);
+          await deleteRouteById((rideId)).then(() => {
+            enqueueSnackbar('La ruta fue eliminada correctamente', {
+              variant: 'success',
+              action: (key) => (
+                <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+                  <Icon icon={closeFill} />
+                </MIconButton>
+              )
+            });
+            setOpen(false)
+          })
         } catch(err){
           console.log(err);
         }
@@ -81,8 +90,7 @@ function TableIcons({data, tableName}: data) {
           underline="none" 
           color="#637381"  
           component={RouterLink} 
-          to={PATH_DASHBOARD.general.rides + 
-              `/${data.id}`}
+          to={PATH_DASHBOARD.general.rides + `/${data.id}`}
         >
           <Icon 
             className={classes.eyeHover} 
@@ -103,9 +111,6 @@ function TableIcons({data, tableName}: data) {
         </Link>
         <Link 
           color="#637381" 
-          // component={RouterLink} 
-          // to={PATH_DASHBOARD.general[tableName as keyof GeneralType] + `/${sport.id}`}
-          //onClick={handleClickOpen}
         >
           <Icon 
             className={classes.trashHover} 
@@ -121,11 +126,11 @@ function TableIcons({data, tableName}: data) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Esta seguro de eliminar este item?"}
+            {"¿Estás seguro de eliminar esta ruta?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Una vez confirmada la accion no se podra deshacer los cambios
+              Una vez confirmado no se podrán deshacer los cambios.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -134,11 +139,12 @@ function TableIcons({data, tableName}: data) {
             </Button>
             <LoadingButton
               size="small"
+              color="error"
               onClick={handleDeleteSubmit}
               variant="contained"
               loading={deleteRide}
             >
-              Continuar
+              Borrar
             </LoadingButton> 
           </DialogActions>
         </Dialog>

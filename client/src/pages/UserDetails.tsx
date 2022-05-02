@@ -1,16 +1,36 @@
 import React from 'react';
-// material
-import {Typography, Card, Button, Box} from '@mui/material';
-// componentes
+
+// UI
+
+import { Typography, Box, Stack } from '@mui/material';
+
+// Components
+
 import UserCard from '../components/UserCard';
 
-function UserDetails() {
+// Assets
+
+import CarPoolEdit from '../assets/CarPoolEdit.png';
+
+export default function UserDetails() {
+
   return (
-    <Box sx={{mb: 5}}>
-      <Typography variant={"h4"} sx={{mt: 4, mb: 2}}>Información del usuario</Typography>
-      <UserCard />
-    </Box>
+    <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4} justifyContent='center' alignItems={{xs: 'center', lg: 'stretch' }} sx={{height: '100%', position: 'relative', zIndex: 10}}>
+      <Box sx={{ minWidth: 300, maxWidth: 500, zIndex: 10 }}>
+        <Typography variant={"h4"} sx={{mb: 4, textAlign: 'center'}}>Mi Información</Typography>
+        <UserCard />
+      </Box>
+      <Box sx={{alignSelf: 'flex-end'}}>
+        <img
+            src={CarPoolEdit}
+            alt='carPool'
+            style={{
+              width: 'auto',
+              height: '350px',
+              borderRadius: '16px',
+            }}
+          />
+      </Box>
+    </Stack>
   )
 }
-
-export default UserDetails
