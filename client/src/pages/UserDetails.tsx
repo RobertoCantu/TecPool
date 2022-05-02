@@ -6,7 +6,7 @@ import UserCard from '../components/UserCard';
 
 function UserDetails() {
   return (
-    <Box sx={{mb: 5}}>
+    <Box sx={{mb: 8}}>
       <Typography variant={"h4"} sx={{mt: 4, mb: 2}}>Información del usuario</Typography>
       <UserCard />
     </Box>

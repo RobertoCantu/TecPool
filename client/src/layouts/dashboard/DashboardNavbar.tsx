@@ -51,9 +51,7 @@ export default function DashboardNavbar({ onOpenSidebar }: DashboardNavbarProps)
   return (
     <RootStyle
       sx={{
-        ...(isCollapse && {
-          width: { lg: `calc(100% - ${COLLAPSE_WIDTH}px)` },
-        })
+        width: '100% !important'
       }}
     >
       <ToolbarStyle>

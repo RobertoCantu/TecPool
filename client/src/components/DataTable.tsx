@@ -51,7 +51,7 @@ function DataTable({data, columns, getItems,count, loading}:props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(()=> {
-        if (searchValue != keyWord){
+        if (searchValue !== keyWord){
             const timeout = setTimeout(async () => {
                 setSearchValue(keyWord);
             },1000);
