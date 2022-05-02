@@ -1,29 +1,32 @@
-import {useContext } from 'react'
-
 // UI
 
 import { createStyles, makeStyles } from '@mui/styles';
-import { Table, TableCell, TableBody, TableRow, Card, CardContent, Link,Box, Grid, Typography} from '@mui/material';
+import { Table, TableCell, TableBody, TableRow, Card, CardContent, Typography } from '@mui/material';
 
 // Utils
+
 import useAuth from '../hooks/useAuth';
 
+const useStyles = makeStyles((theme: any) =>
+  createStyles({
+    tableRow: {
+      borderBottom: '1px solid #eef1f4',
 
-function UserCard() {
+      '& td:first-child': {
+        paddingLeft: '0px'
+      }
+    },
+    tableLabel: {
+      color: '#7c858e',
+      width: '25%'
+    }
+  }),
+);
+
+export default function UserCard() {
 
   const classes = useStyles();
   const { user } = useAuth();
-
-  const message = '¡Hola! Me gustaría separar un lugar para el ride al Tec.'
-
-  const didTapPhoneNumber = () => {
-    if(user){
-      window.open(
-        `https://wa.me/+${user.phone}?text=${message}`,
-        '_blank'
-      )
-    }
-  }
 
   return (
     <div>
@@ -45,7 +48,7 @@ function UserCard() {
                   <TableCell className={classes.tableLabel}>
                     Telefono
                   </TableCell>
-                  <TableCell onClick={() =>didTapPhoneNumber()}>
+                  <TableCell className={classes.tableLabel}>
                     {user.phone}
                   </TableCell>
                 </TableRow>
@@ -60,21 +63,3 @@ function UserCard() {
     </div>  
   )
 }
-
-const useStyles = makeStyles((theme: any) =>
-  createStyles({
-    tableRow: {
-      borderBottom: '1px solid #eef1f4',
-
-      '& td:first-child': {
-        paddingLeft: '0px'
-      }
-    },
-    tableLabel: {
-      color: '#7c858e',
-      width: '25%'
-    }
-  }),
-);
-
-export default UserCard

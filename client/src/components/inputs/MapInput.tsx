@@ -95,9 +95,9 @@ export const MapInput = ({height, width, setAddress, error, helperText, defaultA
             {directionsResponse && <DirectionsRenderer directions={directionsResponse}/>}
           </GoogleMap>
         </Box>
-        <Button onClick={() => mapRef.current?.panTo(center)}>
+        {/*<Button onClick={() => mapRef.current?.panTo(center)}>
           Centrar
-        </Button>
+        </Button>*/}
       </Stack>
     )
 }

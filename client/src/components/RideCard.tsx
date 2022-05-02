@@ -5,9 +5,17 @@ import React, { useState, useEffect} from 'react';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Table, TableCell, TableBody, TableRow, Card, CardContent, Link,Box, Grid, Typography} from '@mui/material';
 
+// Components
+
+import { MapInput } from './inputs/MapInput'
+
 // Utils
 
 import { fetchRouteById } from '../services/routesService';
+
+// Assets
+
+import CarPool from '../assets/CarPool.png';
 
 interface RideCardType {
   rideId : string
@@ -15,20 +23,20 @@ interface RideCardType {
 
 function RideCard({rideId}: RideCardType) {
   const [ride, setRide] = useState<any>();
+  const [_, setAddress] = useState<string>('');
   const classes = useStyles();
 
   useEffect(() => {
     const getRideById = async () => {
       try {
         const response: any = await fetchRouteById((rideId))
-        console.log("RESPONSE", response);
         setRide(response);
       } catch(err){
         console.log(err);
       }
     };
     getRideById();
-    }, []);
+    }, [rideId]);
 
     return (
       <div>
@@ -39,12 +47,12 @@ function RideCard({rideId}: RideCardType) {
               <Table sx={{ minWidth: 650 }}>
                 <TableBody>
                   <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>ID</TableCell>
-                    <TableCell>{ride._id}</TableCell>
+                    <TableCell className={classes.tableLabel}>Parada</TableCell>
+                    <TableCell>{ride.origen}</TableCell>
                   </TableRow>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Conductor</TableCell>
-                    <TableCell>{ride.conductor.name}</TableCell>
+                    <TableCell>{ride.conductor.name + ' ' + ride.conductor.lastName}</TableCell>
                   </TableRow>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Hora inicio</TableCell>
@@ -54,13 +62,13 @@ function RideCard({rideId}: RideCardType) {
                     <TableCell className={classes.tableLabel}>Hora de Llegada</TableCell>
                     <TableCell>{ride.horaLlegada}</TableCell>
                   </TableRow>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Minuto Inicio</TableCell>
-                    <TableCell>{ride.minutoInicio}</TableCell>
-                  </TableRow>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Minuto Llegada</TableCell>
-                    <TableCell>{ride.minutoLlegada}</TableCell>
+                  <TableRow sx={{ pt: 8}}>
+                    <MapInput
+                      height={250}
+                      width={250}
+                      setAddress={value => setAddress(value)}
+                      defaultAddress={ride.origen}
+                    />
                   </TableRow>
                 </TableBody>
               </Table>
