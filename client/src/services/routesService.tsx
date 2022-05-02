@@ -20,7 +20,7 @@ export async function getRoutes() {
 };
 
 export async function createRoute(conductor:string, origen:string,
-  horaInicio:string, minutoInicio:string, horaLlegada:string, minutoLlegada:string,
+   horaLlegada:string,
   asientos:string, gasolina:boolean, dias:[]) {
   return new Promise(async (resolve,reject) => {
     const url = '/rutas';
@@ -29,10 +29,7 @@ export async function createRoute(conductor:string, origen:string,
         const response =  await axios.post(url, {
           conductor,
           origen,
-          horaInicio,
-          minutoInicio,
           horaLlegada,
-          minutoLlegada,
           asientos,
           gasolina,
           dias

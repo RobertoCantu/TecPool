@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-
+import { useSnackbar } from 'notistack';
 
 // Components
 
@@ -12,12 +12,19 @@ import { TimeInput } from '../inputs/TimeInput';
 // UI
 
 import eyeFill from '@iconify/icons-eva/eye-fill';
+import closeFill from '@iconify/icons-eva/close-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { TextField, Stack, IconButton, InputAdornment, Grid, OutlinedInput} from '@mui/material';
 import { FormGroup, FormControlLabel, Checkbox, Select, SelectChangeEvent, FormControl, InputLabel, MenuItem, Box, ListItemText } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+// date utils
+import DateAdapter from '@mui/lab/AdapterMoment';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { TimePicker } from '@mui/lab';
+
 
 // services
 import {createRoute} from '../../services/routesService'
@@ -31,11 +38,12 @@ import useAuth from '../../hooks/useAuth';
 import { PATH_DASHBOARD } from '../../routes/paths';
 import AddRoute from '../../pages/AddRoute';
 import Container from '../../theme/overrides/Container';
+import { MIconButton } from '../@material-extend';
+
 
 interface InitialValues {
   direccion: string;
-  hora: number;
-  minutos: number;
+  hora: any;
   gasolina: boolean;
   asientos: string;
   days: any;
@@ -49,16 +57,17 @@ interface IProps {
 
 const AddRouteSchema = Yup.object().shape({
   direccion: Yup.string().required('Se requiere una direccion'),
-  hora: Yup.number().required('Se requiere una hora'),
-  minutos: Yup.number().required('Se requiere minutos')
+  hora: Yup.string().required('Se requiere una hora'),
 });
 
 export default function AddRouteForm() {
   const navigate = useNavigate();
   const {user} = useAuth();
   const [selected, setSelected] = useState<any>([]);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+
+  const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   const isAllSelected =
   dias.length > 0 && selected.length === dias.length;
   //const {addRoute} = context;
@@ -76,13 +85,12 @@ export default function AddRouteForm() {
       <Formik
         initialValues={{
           direccion: '',
-          hora: 0,
-          minutos: 0,
+          hora: null,
           gasolina: false,
           asientos: '',
           days: []
         }}
-        validationSchema= {AddRouteSchema}
+        // validationSchema= {AddRouteSchema}
         onSubmit={async (
           values: InitialValues,
           { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
@@ -90,19 +98,31 @@ export default function AddRouteForm() {
           try {
             console.log(values)
             // extract values
-            const {direccion, hora, minutos, gasolina, asientos, days } = values;
-            // const response:any = await createRoute(user.id,  direccion,   )
+            const {direccion, hora, gasolina, asientos, days } = values;
+            const response:any = await createRoute(user?.id,  direccion, hora, asientos, gasolina, days   )
+            console.log(response);
+            enqueueSnackbar('Ruta creada exitosamente!', {
+              variant: 'success',
+              action: (key) => (
+                <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+                  <Icon icon={closeFill} />
+                </MIconButton>
+              )
+            });
+            resetForm();
+            setSelected([]);
             // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.response.data.message)
             resetForm();
+            setSelected([]);
             //Falta agregar useRef
             setErrors({ afterSubmit: error.response.data.message });
           }
         }}
       >
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => {
-          
+          console.log(values);
         return (
           
           <Form>
@@ -145,11 +165,16 @@ export default function AddRouteForm() {
                     height: 70
                   }}
                 >
-                  <TimeInput
-                    setHour={value => setFieldValue('hora', value)}
-                    setMinutes={value => setFieldValue('minutos', value)}                   error={Boolean(touched.hora && errors.hora && touched.minutos && errors.minutos)}
-                    helperText={touched.hora && errors.hora && touched.minutos && errors.minutos}
-                  />
+                  <LocalizationProvider dateAdapter={DateAdapter}>
+                    <TimePicker
+                      label="Time"
+                      value={values.hora}
+                      onChange={(newValue) => {
+                        setFieldValue('hora', newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
                 </Box>
                 </Grid>
                 <Grid item xs={12} md={12} lg={6}>
@@ -191,7 +216,12 @@ export default function AddRouteForm() {
                 helperText={touched.direccion && errors.direccion}
               />
               <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="Apoyo para la gasolina" />
+                <FormControlLabel 
+                  control={<Checkbox />} 
+                  label="Apoyo para la gasolina" 
+                  checked={values.gasolina}
+                  onChange= {() => setFieldValue('gasolina', !values.gasolina)}
+                />
               </FormGroup>
               <LoadingButton
               fullWidth
