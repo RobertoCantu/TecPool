@@ -131,6 +131,14 @@ export default function RidesList() {
         heading="Rutas Disponibles"
         links={[]}
       />
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{ mb: 4, alignSelf: 'flex-end'}}
+        onClick={() => navigate(PATH_DASHBOARD.general.rides + '/addRoute')}
+      >
+        Agregar ruta
+      </Button>
       <Card style={{ height: '60%', width: '100%', padding:'32px 24px 12px' }}>
         <Box sx={{ height: '100%'}}>
           <DataGrid
@@ -144,14 +152,6 @@ export default function RidesList() {
           />
         </Box>
       </Card>
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        sx={{ mt: 8, alignSelf: 'flex-end'}}
-        onClick={() => navigate(PATH_DASHBOARD.general.rides + '/addRoute')}
-      >
-        Agregar ruta
-      </Button>
     </Stack>
   );
 }
