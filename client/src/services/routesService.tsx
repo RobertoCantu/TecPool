@@ -25,7 +25,8 @@ export async function createRoute(conductor:string, origen:string,
   return new Promise(async (resolve,reject) => {
     const url = '/rutas';
     try {
-      axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('accessToken');
+      // console.log(localStorage.getItem('accessToken'))
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
         const response =  await axios.post(url, {
           conductor,
           origen,
@@ -64,7 +65,7 @@ export async function editRouteById(id:string, conductor:string, origen:string,
   return new Promise(async (resolve,reject) => {
     const url = `/rutas/${id}`;
     try {
-      axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('accessToken');
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
         const response =  await axios.post(url, {
           conductor,
           origen,
