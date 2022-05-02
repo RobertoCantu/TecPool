@@ -59,7 +59,7 @@ export default function Router() {
         children: [
           { path: '/dashboard', element: <RidesList /> },
           { path: 'create', element: <CreateRide /> },
-          { path: 'userDetails', element: <UserDetails /> },
+          { path: 'profile', element: <UserDetails /> },
           { path: 'rides/:rideId', element: <RideDetails /> },
 
         ] 

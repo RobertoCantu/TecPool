@@ -1,7 +1,7 @@
 // UI
 
 import { createStyles, makeStyles } from '@mui/styles';
-import { Table, TableCell, TableBody, TableRow, Card, CardContent, Typography } from '@mui/material';
+import { Table, TableCell, TableBody, TableRow, Card, CardContent, Typography, Box, CircularProgress } from '@mui/material';
 
 // Utils
 
@@ -29,16 +29,15 @@ export default function UserCard() {
   const { user } = useAuth();
 
   return (
-    <div>
+    <Box>
       {user ? 
-      <>
         <Card sx={{ width: '100%' }}>
           <CardContent>
             <Table sx={{ minWidth: 650 }}>
               <TableBody>
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableLabel}>Nombre</TableCell>
-                  <TableCell>{user.name + ' ' + user.lastName}</TableCell>
+                  <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
                 </TableRow>
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableLabel}>Email</TableCell>
@@ -56,10 +55,9 @@ export default function UserCard() {
             </Table>
           </CardContent>
         </Card> 
-      </>
       : 
-        null
+       <CircularProgress size={80}/>
       }
-    </div>  
+    </Box>  
   )
 }

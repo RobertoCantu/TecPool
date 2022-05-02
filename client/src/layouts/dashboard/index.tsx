@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 // material
-import { styled, useTheme, Container } from '@mui/material';
+import { styled, useTheme, Container, Box } from '@mui/material';
 
 // hooks
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
@@ -23,8 +23,8 @@ const MainStyle = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
   minHeight: '100%',
-  paddingTop: theme.spacing(4),
-  paddingBottom: theme.spacing(4),
+  //paddingTop: theme.spacing(4),
+  //paddingBottom: theme.spacing(8),
   paddingLeft: theme.spacing(2),
   paddingRight: theme.spacing(2)
 }));
@@ -35,7 +35,8 @@ export default function DashboardLayout() {
   const theme = useTheme();
   const { collapseClick } = useCollapseDrawer();
 
-  return (<>
+  return (
+  <Box sx={{ pb: '72px'}}>
     <DashboardNavbar/>
     <Container maxWidth="xl" sx={{  display: 'flex', height: '100vh', position:'relative'}}>
       <MainStyle
@@ -51,6 +52,6 @@ export default function DashboardLayout() {
         <Outlet />
       </MainStyle>
     </Container>
-    </>
+    </Box>
   );
 }

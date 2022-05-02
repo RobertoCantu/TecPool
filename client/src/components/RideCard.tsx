@@ -42,9 +42,9 @@ function RideCard({rideId}: RideCardType) {
       <div>
         {ride ? 
         <>
-          <Card sx={{ minWidth: 275 }}>
+          <Card sx={{ minWidth: 200, height: '100%', width: '100%', px:'8px'}}>
             <CardContent>
-              <Table sx={{ minWidth: 650 }}>
+              <Table sx={{ minWidth: 250 }}>
                 <TableBody>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Parada</TableCell>
@@ -55,20 +55,26 @@ function RideCard({rideId}: RideCardType) {
                     <TableCell>{ride.conductor.name + ' ' + ride.conductor.lastName}</TableCell>
                   </TableRow>
                   <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Hora inicio</TableCell>
-                    <TableCell>{ride.horaInicio}</TableCell>
+                    <TableCell className={classes.tableLabel}>Asientos</TableCell>
+                    <TableCell>{ride.asientos}</TableCell>
                   </TableRow>
                   <TableRow className={classes.tableRow}>
                     <TableCell className={classes.tableLabel}>Hora de Llegada</TableCell>
                     <TableCell>{ride.horaLlegada}</TableCell>
                   </TableRow>
-                  <TableRow sx={{ pt: 8}}>
+                  <TableRow className={classes.tableRow}>
+                    <TableCell className={classes.tableLabel}>Cooperación de gasolina</TableCell>
+                    <TableCell>{ride.gasolina}</TableCell>
+                  </TableRow>
+                  <TableRow sx={{ mt: '64px'}}>
+                  <TableCell className={classes.tableLabel}>
                     <MapInput
                       height={250}
                       width={250}
                       setAddress={value => setAddress(value)}
                       defaultAddress={ride.origen}
                     />
+                  </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

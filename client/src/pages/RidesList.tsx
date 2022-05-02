@@ -140,7 +140,7 @@ export default function RidesList() {
           heading="Rutas Disponibles"
           links={[]}
         />
-        <Card style={{ height: '100%', width: '100%' }}>
+        <Card style={{ height: '100%', width: '100%', padding:'32px 24px 12px' }}>
           <Box sx={{ height: '100%'}}>
             <DataGrid
               rows={routes}

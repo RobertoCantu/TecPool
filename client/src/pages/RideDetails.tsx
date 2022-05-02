@@ -21,7 +21,7 @@ export default function RideDetails() {
   const { user } = useAuth();
   const { rideId } = useParams();
 
-  const message = '¡Hola! Me gustaría separar un lugar para el ride al Tec.'
+  const message = '¡Hola! Me gustaría separar un lugar para tu ride al Tec.'
 
   const didTapPhoneNumber = () => {
     if(user){

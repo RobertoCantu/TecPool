@@ -35,7 +35,7 @@ const DashboardNavbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ mb: '48px'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

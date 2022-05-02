@@ -18,6 +18,6 @@ export const PATH_DASHBOARD = {
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
     rides: path(ROOTS_DASHBOARD, '/rides'),
-    user: path(ROOTS_DASHBOARD, '/userDetails')
+    user: path(ROOTS_DASHBOARD, '/profile')
   }
 };
