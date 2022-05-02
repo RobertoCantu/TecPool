@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 // UI
 
@@ -40,6 +41,8 @@ function TableIcons({data, tableName}: data) {
     const [enableModifications, setEnableModifications] = useState(false);
     const [deleteRide, setDeleteRide] = useState(false);
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+
     const rideId = data.id;
 
     useEffect(() => {
@@ -57,7 +60,8 @@ function TableIcons({data, tableName}: data) {
         }
       }
       getUserRoutes()
-    },[user, rideId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[user])
 
     const handleDeleteSubmit = () => {
       setDeleteRide(true);
@@ -74,6 +78,7 @@ function TableIcons({data, tableName}: data) {
             });
             setOpen(false)
           })
+          navigate(0)
         } catch(err){
           console.log(err);
         }
