@@ -48,7 +48,7 @@ router.route('/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.route('/:id').delete(/*checkAuth, */(req, res) => {
     Ruta.findByIdAndDelete(req.params.id)
         .then(ruta => res.json('Ruta borrada'))
         .catch(err => res.status(400).json('Error: ' + err));
