@@ -142,14 +142,13 @@ function AuthProvider({children} : {children: ReactNode}){
 				"lastName": response.lastName,
 				"email": response.email,
 				"phone": response.phone,
+        "id": response._id
 			}
 
       // Set JWT in local storage
       window.localStorage.setItem('accessToken',token);
       window.localStorage.setItem('user', JSON.stringify(user));
       
-      user.id = response._id
-
       dispatch({
         type: Types.Login,
         payload: {
@@ -173,11 +172,11 @@ function AuthProvider({children} : {children: ReactNode}){
         "lastName": response.lastName,
         "email": response.email,
         "phone": response.phone,
+        "id": response._id
       }
       //Set Jwt in local storage
       window.localStorage.setItem('accessToken',token);
       window.localStorage.setItem('user', JSON.stringify(user));
-      user.id = response._id
 
       dispatch({
       type: Types.Register,

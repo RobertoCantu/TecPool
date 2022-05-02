@@ -43,11 +43,14 @@ function TableIcons({data, tableName}: data) {
 
     useEffect(() => {
       const getUserRoutes = async () => {
-        //await fetchUserById(element.conductor)
-        console.log("user", user)
+        if(user) {
+          await fetchUserById(user.id).then((response) => {
+            console.log(response)
+          })
+        }
       }
       getUserRoutes()
-    },[])
+    },[user])
 
     const handleDeleteSubmit = () => {
       setDeleteRide(true);
