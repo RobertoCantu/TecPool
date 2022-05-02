@@ -9,7 +9,7 @@ import User from "../models/userModel.js";
 
 const router = express.Router();
 
-router.use(checkAuth);
+//router.use(checkAuth);
 
 // Endpoints
 
@@ -23,11 +23,12 @@ router.route('/').post((req, res) => {
     Ruta.create({
         conductor: req.body.conductor,
         origen: req.body.origen,
-        destino: req.body.destino,
         horaInicio: Number(req.body.horaInicio),
         minutoInicio: Number(req.body.minutoInicio),
         horaLlegada: Number(req.body.horaLlegada),
-        minutoLlegada: Number(req.body.minutoLlegada)
+        minutoLlegada: Number(req.body.minutoLlegada),
+        asientos: Number(req.body.asientos),
+        gasolina: Boolean(req.body.gasolina)
     })
         .then(ruta => {
             return User.findById(req.body.conductor).then(usuario => {
@@ -46,7 +47,7 @@ router.route('/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete(checkUser, (req, res) => {
+router.route('/:id').delete((req, res) => {
     Ruta.findByIdAndDelete(req.params.id)
         .then(ruta => res.json('Ruta borrada'))
         .catch(err => res.status(400).json('Error: ' + err));
