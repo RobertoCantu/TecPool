@@ -72,4 +72,14 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { createUser, authUser };
+//@description     Find a requested user
+//@route           Get /users/:id
+//@access          Public
+const findUser = asyncHandler(async (req, res) => {
+  User.findById(req.params.id)
+        .populate({path:'rutas', strictPopulate: false})
+        .then(usuario => res.json(usuario))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+export { createUser, authUser, findUser };
