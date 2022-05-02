@@ -34,11 +34,10 @@ function AddRoute() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Container maxWidth="sm">
-       <div className={classes.content}>
-          <Card sx={{padding:5}}>
-            <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
+    <div >
+      <Container maxWidth="lg">
+       <div >
+        <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h4" gutterBottom>
                   Nueva Ruta
@@ -48,6 +47,8 @@ function AddRoute() {
                 </Typography>
               </Box>
             </Stack>
+          <Card sx={{padding:5}}>
+            
             <AddRouteForm/>
           </Card>
         </div>

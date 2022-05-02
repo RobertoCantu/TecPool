@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 
 import { MapInput } from '../inputs/MapInput';
 import { TimeInput } from '../inputs/TimeInput';
+// import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 // UI
 
@@ -13,9 +14,12 @@ import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, IconButton, InputAdornment } from '@mui/material';
+import { TextField, Stack, IconButton, InputAdornment, Grid, OutlinedInput} from '@mui/material';
 import { FormGroup, FormControlLabel, Checkbox, Select, SelectChangeEvent, FormControl, InputLabel, MenuItem, Box, ListItemText } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+
+// services
+import {createRoute} from '../../services/routesService'
 
 // Hooks
 
@@ -33,6 +37,7 @@ interface InitialValues {
   minutos: number;
   gasolina: boolean;
   asientos: number;
+  days: any;
   afterSubmit?: string;
 };
 /*
@@ -50,11 +55,20 @@ const AddRouteSchema = Yup.object().shape({
 export default function AddRouteForm() {
   const navigate = useNavigate();
   const context = useAuth();
+  const [selected, setSelected] = useState<any>([]);
   const dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-  
+  const isAllSelected =
+  dias.length > 0 && selected.length === dias.length;
   //const {addRoute} = context;
   //const [personName, setPersonName] = React.useState<string[]>([]);
-
+  const handleChangeCheck = (event:any) => {
+    const value = event.target.value;
+    if (value[value.length - 1] === "all") {
+      setSelected(selected.length === dias.length ? [] : dias);
+      return;
+    }
+    setSelected(value);
+  };
   return (
     <div>
       <Formik
@@ -64,6 +78,7 @@ export default function AddRouteForm() {
           minutos: 0,
           gasolina: false,
           asientos: 0,
+          days: []
         }}
         validationSchema= {AddRouteSchema}
         onSubmit={async (
@@ -71,8 +86,12 @@ export default function AddRouteForm() {
           { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
+            console.log(values)
+            // extract values
+           const {direccion, hora, minutos, gasolina, asientos, days } = values;
           //  await addRoute(values.direccion, values.hora, values.minutos, values.gasolina, values.asientos);
-            navigate(PATH_DASHBOARD.root);
+          //const response:any = await createRoute()
+            // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.response.data.message)
             resetForm();
@@ -81,42 +100,59 @@ export default function AddRouteForm() {
           }
         }}
       >
-        {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => (
+        {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => {
+          
+        return (
+          
           <Form>
-            <Stack spacing={2}>
-              <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-checkbox-label">Tag</InputLabel>
+            <Box sx={{marginBottom:3}}>
+
+            <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={6}>
+
+              <FormControl fullWidth>
+                <InputLabel id="demo-multiple-checkbox-label">Dias</InputLabel>
                 <Select
                   labelId="demo-multiple-checkbox-label"
                   id="demo-multiple-checkbox"
                   multiple
-                 // value={personName}
-                  onChange={handleChange}
-                 // input={<OutlinedInput label="Tag" />}
-                //  renderValue={(selected) => selected.join(', ')}
-                //  MenuProps={MenuProps}
+                  value={selected}
+                  onChange={(event) => {
+                    handleChangeCheck(event);
+                    setFieldValue('days', event.target.value);
+                  }}
+                  input={<OutlinedInput label="Dias" />}
+                  renderValue={(selected) => selected.join(', ')}
+                  // MenuProps={MenuProps}
                 >
-                  {/*dias.map((dia) => (
-                    <MenuItem key={dia} value={dia}>
-                      <Checkbox checked={personName.indexOf(dia) > -1} />
-                      <ListItemText primary={dia} />
-                    </MenuItem>
-                  ))*/}
+                  {
+                    dias.map((dia) => (
+                      <MenuItem key={dia} value={dia}>
+                        <Checkbox checked={selected.indexOf(dia) > -1} />
+                        <ListItemText primary={dia} />
+                      </MenuItem>
+                    ))
+                  }
                 </Select>
               </FormControl>
-              <Stack direction="row" spacing={2}>
+              </Grid>
+              <Grid item xs={12} md={12} lg={6}>
+
                 <Box
                   sx={{
                     width: 200,
                     height: 70
                   }}
                 >
-                  {/*<TimeInput
+                  <TimeInput
                     setHour={value => setFieldValue('hora', value)}
                     setMinutes={value => setFieldValue('minutos', value)}                   error={Boolean(touched.hora && errors.hora && touched.minutos && errors.minutos)}
                     helperText={touched.hora && errors.hora && touched.minutos && errors.minutos}
-                  />*/}
+                  />
                 </Box>
+                </Grid>
+                <Grid item xs={12} md={12} lg={6}>
+
                 <Box
                   sx={{
                     width: 100,
@@ -141,7 +177,9 @@ export default function AddRouteForm() {
                     </Select>
                   </FormControl>
                 </Box>
-              </Stack>
+                </Grid>
+
+
               <MapInput
                 height={300}
                 width={300}
@@ -158,10 +196,12 @@ export default function AddRouteForm() {
               type='submit'
               variant='contained'
               loading={isSubmitting}
-              >Registrar</LoadingButton>
-            </Stack>
+              >Agregar</LoadingButton>
+            </Grid>
+            </Box>
           </Form>
         )
+                }
         }
         
       </Formik>

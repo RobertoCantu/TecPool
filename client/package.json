@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/helper-get-function-arity": "^7.16.7",
+    "@date-io/moment": "^2.13.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/icons": "^4.11.2",
@@ -26,8 +27,9 @@
     "bootstrap-icons": "^1.8.1",
     "date-fns": "^2.24.0",
     "formik": "^2.2.9",
+    "formik-material-ui": "^4.0.0-alpha.2",
     "framer-motion": "^4.1.17",
-    "moment": "^2.29.1",
+    "moment": "^2.29.3",
     "notistack": "^2.0.3",
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
