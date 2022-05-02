@@ -37,20 +37,27 @@ function TableIcons({data, tableName}: data) {
     const { user } = context;
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const [open, setOpen] = useState(false);
+    const [enableModifications, setEnableModifications] = useState(false);
     const [deleteRide, setDeleteRide] = useState(false);
+    const [open, setOpen] = useState(false);
     const rideId = data.id;
 
     useEffect(() => {
       const getUserRoutes = async () => {
         if(user) {
-          await fetchUserById(user.id).then((response) => {
-            console.log(response)
+          await fetchUserById(user.id).then((response: any) => {
+            let found = response.routes.includes(rideId)
+            console.log(false)
+            if(found) {
+              setEnableModifications(true)
+            } else {
+              setEnableModifications(false)
+            }
           })
         }
       }
       getUserRoutes()
-    },[user])
+    },[user, rideId])
 
     const handleDeleteSubmit = () => {
       setDeleteRide(true);
@@ -98,27 +105,31 @@ function TableIcons({data, tableName}: data) {
             icon={eyeIcon}
           />
         </Link>
+       {enableModifications &&
         <Link 
-          color="#637381" 
-          component={RouterLink} 
-          to={PATH_DASHBOARD.general.rides + `/${data.id}/edit`}
-        >
-          <Icon 
-            className={classes.editHover} 
-            style={{ fontSize: '22px' }} 
-            icon={edit}
-          />
-        </Link>
-        <Link 
-          color="#637381" 
-        >
-          <Icon 
-            className={classes.trashHover} 
-            style={{ fontSize: '22px' }} 
-            icon={trash}
-            onClick={handleClickOpen}
-          />
-        </Link>
+            color="#637381" 
+            component={RouterLink} 
+            to={PATH_DASHBOARD.general.rides + `/${data.id}/edit`}
+          >
+            <Icon 
+              className={classes.editHover} 
+              style={{ fontSize: '22px' }} 
+              icon={edit}
+            />
+          </Link>
+        }
+        {enableModifications &&
+          <Link 
+            color="#637381" 
+          >
+            <Icon 
+              className={classes.trashHover} 
+              style={{ fontSize: '22px' }} 
+              icon={trash}
+              onClick={handleClickOpen}
+            />
+          </Link>
+        }
         <Dialog
           open={open}
           onClose={handleClose}
