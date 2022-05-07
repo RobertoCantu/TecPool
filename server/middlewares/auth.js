@@ -26,6 +26,8 @@ export const checkUser = async (req, res, next) => {
         // console.log(token);
         const tokenData = await verifyToken(token);
         const routeData = await Ruta.findById(req.params.id);
+        console.log(tokenData);
+        console.log(routeData);
 
         if (routeData.conductor == tokenData.id){
             next();

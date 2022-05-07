@@ -41,7 +41,7 @@ router.route('/').post((req, res) => {
 
 });
 
-router.route('/:id').get((req, res) => {
+router.route('/:id').get(checkUser, (req, res) => {
     Ruta.findById(req.params.id)
         .populate('conductor')
         .then(ruta => res.json(ruta))
@@ -54,7 +54,7 @@ router.route('/:id').delete(checkUser, (req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').post((req, res) => {
+router.route('/:id').post(checkUser, (req, res) => {
     Ruta.findById(req.params.id)
         .then(ruta => {
             ruta.conductor = req.body.conductor;

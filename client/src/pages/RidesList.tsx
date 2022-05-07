@@ -41,47 +41,7 @@ const centerColumns = (cellValues: any) => {
   );
 }
 
-const columns: GridColumns = [
-  { field: 'destiny',
-    headerName: 'Colonia',
-    flex: 1,
-    headerAlign: 'center',
-    renderCell: (cellValues) => centerColumns(cellValues)
-  },
-  {
-    field: 'driver',
-    headerName: 'Conductor',
-    flex: 1,
-    editable: false,
-    sortable: false,
-    headerAlign: 'center',
-    renderCell: (cellValues) => centerColumns(cellValues)
-  },
-  {
-    field: 'gasoline',
-    headerName: 'Requiere gasolina',
-    type: 'boolean',
-    flex: 1,
-    editable: true,
-    sortable: false,
-    headerAlign: 'center',
-  },
-  {
-    field: 'availableSeats',
-    headerName: 'Asientos disponibles',
-    type: 'number',
-    flex: 1,
-    editable: true,
-    sortable: false,
-    headerAlign: 'center',
-    renderCell: (cellValues) => centerColumns(cellValues)
-  },
-  {
-    field: 'actions',
-    type: 'actions',
-    renderCell: (cellValues) => <TableIcons data={cellValues}/>
-  },
-];
+
 
 // Define row type
 type Row = {
@@ -95,6 +55,48 @@ type Row = {
 export default function RidesList() {
   const [routes, setRoutes] = useState<Row[]>([])
   const navigate = useNavigate();
+
+  const columns: GridColumns = [
+    { field: 'destiny',
+      headerName: 'Colonia',
+      flex: 1,
+      headerAlign: 'center',
+      renderCell: (cellValues) => centerColumns(cellValues)
+    },
+    {
+      field: 'driver',
+      headerName: 'Conductor',
+      flex: 1,
+      editable: false,
+      sortable: false,
+      headerAlign: 'center',
+      renderCell: (cellValues) => centerColumns(cellValues)
+    },
+    {
+      field: 'gasoline',
+      headerName: 'Requiere gasolina',
+      type: 'boolean',
+      flex: 1,
+      editable: true,
+      sortable: false,
+      headerAlign: 'center',
+    },
+    {
+      field: 'availableSeats',
+      headerName: 'Asientos disponibles',
+      type: 'number',
+      flex: 1,
+      editable: true,
+      sortable: false,
+      headerAlign: 'center',
+      renderCell: (cellValues) => centerColumns(cellValues)
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      renderCell: (cellValues) => <TableIcons data={cellValues} setRoutes= {setRoutes}/>
+    },
+  ];
 
   // On load component, grab all available routes from db
   useEffect(() => {

@@ -17,7 +17,7 @@ import closeFill from '@iconify/icons-eva/close-fill';
 
 // Utils
 
-import { deleteRouteById } from '../services/routesService';
+import { deleteRouteById, getRoutes } from '../services/routesService';
 import { fetchUserById } from '../services/userService'
 import { PATH_DASHBOARD } from '../routes/paths';
 
@@ -29,9 +29,10 @@ import useAuth from '../hooks/useAuth';
 interface data {
   data?:any;
   tableName?:any;
+  setRoutes?:any;
 };
 
-function TableIcons({data, tableName}: data) {
+function TableIcons({data, tableName, setRoutes}: data) {
 
     const classes = useStyles();
     const context = useAuth();
@@ -66,6 +67,7 @@ function TableIcons({data, tableName}: data) {
     const handleDeleteSubmit = () => {
       setDeleteRide(true);
       const getRideById = async () => {
+        let formattedRoutes: Array<any> = []
         try {
           await deleteRouteById((rideId)).then(() => {
             enqueueSnackbar('La ruta fue eliminada correctamente', {
@@ -78,7 +80,21 @@ function TableIcons({data, tableName}: data) {
             });
             setOpen(false)
           })
-          navigate(0)
+          await getRoutes().then(async (response: any) => {
+            response.map(async (element: any) => {
+              await fetchUserById(element.conductor).then((user: any) => {
+                let newRoute = {
+                  id: element._id,
+                  destiny: element.origen,
+                  driver: user.name + ' ' + user.lastName,
+                  gasoline: element.gasolina,
+                  availableSeats: element.asientos,
+                }
+                formattedRoutes = [...formattedRoutes, newRoute];
+                setRoutes(formattedRoutes)
+              })
+            })
+          })
         } catch(err){
           console.log(err);
         }

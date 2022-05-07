@@ -51,6 +51,7 @@ export const RouteForm = () => {
   const [ride, setRide] = useState<any>([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   let { rideId } = useParams();
+  console.log(rideId)
 
 
   const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
@@ -64,12 +65,21 @@ export const RouteForm = () => {
         console.log("response", response)
         setRide(response);
         setSelected(response.dias)
-      } catch(err){
-        console.log(err);
+      } catch(err:any){
+        navigate(PATH_DASHBOARD.root);
+        enqueueSnackbar(err.error, {
+          variant: 'error',
+          action: (key) => (
+            <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+              <Icon icon={closeFill} />
+            </MIconButton>
+          )
+        });
       }
     }
-
-    getRouteInfo()
+    if(rideId){
+      getRouteInfo()
+    }
   }, [rideId])
 
   const handleChangeCheck = (event:any) => {
