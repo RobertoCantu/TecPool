@@ -158,11 +158,11 @@ function TableIcons({data, tableName, setRoutes}: data) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"¿Estás seguro de eliminar esta ruta?"}
+            {"¿Estás seguro de borrar esta ruta?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Una vez confirmado no se podrán deshacer los cambios.
+              Al confirmar no se podrán deshacer los cambios.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -176,7 +176,7 @@ function TableIcons({data, tableName, setRoutes}: data) {
               variant="contained"
               loading={deleteRide}
             >
-              Borrar
+              Confirmar
             </LoadingButton> 
           </DialogActions>
         </Dialog>
