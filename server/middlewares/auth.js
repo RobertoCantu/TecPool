@@ -4,10 +4,8 @@ import Ruta from "../models/modeloRuta.js";
 export const checkAuth = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
-        // console.log(token);
 
         const tokenData = await verifyToken(token);
-        //console.log(tokenData)
         if (tokenData.id){
             next();
         } else {
@@ -23,11 +21,8 @@ export const checkAuth = async (req, res, next) => {
 export const checkUser = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
-        // console.log(token);
         const tokenData = await verifyToken(token);
         const routeData = await Ruta.findById(req.params.id);
-        console.log(tokenData);
-        console.log(routeData);
 
         if (routeData.conductor == tokenData.id){
             next();

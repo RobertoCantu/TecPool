@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: any) =>
 
 function RideCard({rideId}: RideCardType) {
   const [ride, setRide] = useState<any>();
-  const [_, setAddress] = useState<string>('');
+  const [, setAddress] = useState<string>('');
   const classes = useStyles();
 
   useEffect(() => {
@@ -63,52 +63,55 @@ function RideCard({rideId}: RideCardType) {
     return `${newDate.getHours()}: ${newDate.getMinutes()} ${pm ? 'PM' : 'AM'}`
   }
 
-    return (
-      <Box>
-        {ride ? 
-          <Card sx={{ minWidth: 200, height: '100%', width: '100%', px:'8px'}}>
-            <CardContent>
-              <Table sx={{ minWidth: 250 }}>
-                <TableBody>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Parada</TableCell>
-                    <TableCell >{ride.origen}</TableCell>
-                  </TableRow>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Conductor</TableCell>
-                    <TableCell>{ride.conductor.name + ' ' + ride.conductor.lastName}</TableCell>
-                  </TableRow>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Asientos</TableCell>
-                    <TableCell>{ride.asientos}</TableCell>
-                  </TableRow>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Hora de Llegada</TableCell>
-                    <TableCell>{formatDate(ride.horaLlegada)}</TableCell>
-                  </TableRow>
-                  <TableRow className={classes.tableRow}>
-                    <TableCell className={classes.tableLabel}>Cooperación de gasolina</TableCell>
-                    <TableCell>{ride.gasolina}</TableCell>
-                  </TableRow>
-                  <TableRow sx={{ mt: '64px'}}>
-                  <TableCell className={classes.tableLabel}>
-                    <MapInput
-                      height={250}
-                      width={250}
-                      setAddress={value => setAddress(value)}
-                      defaultAddress={ride.origen}
-                    />
-                  </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        : 
-          <CircularProgress size={80}/>
-        }
-      </Box>  
-    )
+  const formatGasoline = (gasoline: boolean) => {
+    return gasoline ? 'Sí' : 'No';
   }
+  return (
+    <Box>
+      {ride ? 
+        <Card sx={{ minWidth: 200, height: '100%', width: '100%', px:'8px'}}>
+          <CardContent>
+            <Table sx={{ minWidth: 250 }}>
+              <TableBody>
+                <TableRow className={classes.tableRow}>
+                  <TableCell className={classes.tableLabel}>Dirección de la parada</TableCell>
+                  <TableCell >{ride.origen}</TableCell>
+                </TableRow>
+                <TableRow className={classes.tableRow}>
+                  <TableCell className={classes.tableLabel}>Conductor</TableCell>
+                  <TableCell>{ride.conductor.name + ' ' + ride.conductor.lastName}</TableCell>
+                </TableRow>
+                <TableRow className={classes.tableRow}>
+                  <TableCell className={classes.tableLabel}>Asientos disponibles</TableCell>
+                  <TableCell>{ride.asientos}</TableCell>
+                </TableRow>
+                <TableRow className={classes.tableRow}>
+                  <TableCell className={classes.tableLabel}>Llegada a la parada</TableCell>
+                  <TableCell>{formatDate(ride.horaLlegada)}</TableCell>
+                </TableRow>
+                <TableRow className={classes.tableRow}>
+                  <TableCell className={classes.tableLabel}>Cooperación de gasolina</TableCell>
+                  <TableCell>{formatGasoline(ride.gasolina)}</TableCell>
+                </TableRow>
+                <TableRow sx={{ mt: '64px'}}>
+                <TableCell className={classes.tableLabel}>
+                  <MapInput
+                    height={250}
+                    width={250}
+                    setAddress={value => setAddress(value)}
+                    defaultAddress={ride.origen}
+                  />
+                </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      : 
+        <CircularProgress size={80}/>
+      }
+    </Box>  
+  )
+}
 
 export default RideCard

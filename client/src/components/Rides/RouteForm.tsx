@@ -12,7 +12,7 @@ import { MapInput } from '../inputs/MapInput';
 import closeFill from '@iconify/icons-eva/close-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Stack, Grid, OutlinedInput, CircularProgress} from '@mui/material';
+import { TextField, Grid, OutlinedInput } from '@mui/material';
 import { FormGroup, FormControlLabel, Checkbox, Select, FormControl, InputLabel, MenuItem, Box, ListItemText } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterMoment';
@@ -28,7 +28,7 @@ import useAuth from '../../hooks/useAuth';
 import { PATH_DASHBOARD } from '../../routes/paths';
 import { createRoute, editRouteById} from '../../services/routesService'
 import { MIconButton } from '../@material-extend';
-import { fetchRouteById } from '../../services/routesService';
+import { fetchEditRouteById } from '../../services/routesService';
 
 interface InitialValues {
   direccion: string;
@@ -40,8 +40,10 @@ interface InitialValues {
 };
 
 const AddRouteSchema = Yup.object().shape({
-  direccion: Yup.string().required('Se requiere una direccion'),
-  hora: Yup.string().required('Se requiere una hora'),
+  direccion: Yup.string().required('Se requiere la dirección de la parada.'),
+  hora: Yup.string().required('Se requiere una hora.'),
+  asientos: Yup.string().required('Se requiere la cantidad de asientos disponibles.'),
+  days: Yup.array().min(1, "Selecciona al menos un día").required('Se requieren los días en los que la ruta está disponible.'),
 });
 
 export const RouteForm = () => {
@@ -50,19 +52,13 @@ export const RouteForm = () => {
   const [selected, setSelected] = useState<any>([]);
   const [ride, setRide] = useState<any>([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  let { rideId } = useParams();
-  console.log(rideId)
-
-
   const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-  const isAllSelected =
-  dias.length > 0 && selected.length === dias.length;
+  let { rideId } = useParams();
 
   useEffect(() => {
     const getRouteInfo = async () => {
       try {
-        const response: any = rideId && await fetchRouteById(rideId)
-        console.log("response", response)
+        const response: any = rideId && await fetchEditRouteById(rideId)
         setRide(response);
         setSelected(response.dias)
       } catch(err:any){
@@ -102,9 +98,10 @@ export const RouteForm = () => {
           asientos: ride?.asientos || '',
           days: ride?.dias || []
         }}
+        validationSchema={AddRouteSchema}
         onSubmit={async (
           values: InitialValues,
-          { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
+          { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
             const {direccion, hora, gasolina, asientos, days } = values;
@@ -123,7 +120,6 @@ export const RouteForm = () => {
             });
             navigate(PATH_DASHBOARD.root);
           } catch (error:any){
-            console.log(error.response.data.message)
             resetForm();
             setSelected([]);
             setErrors({ afterSubmit: error.response.data.message });
@@ -131,12 +127,12 @@ export const RouteForm = () => {
         }}
       >
         {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => {
-        return (          
+        return (
           <Form>
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-multiple-checkbox-label">Dias</InputLabel>
+                  <InputLabel id="demo-multiple-checkbox-label">Días hábiles de la parada</InputLabel>
                   <Select
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
@@ -166,7 +162,7 @@ export const RouteForm = () => {
                     <LocalizationProvider dateAdapter={DateAdapter}>
                       <TimePicker
                         views={['hours', 'minutes']}
-                        label="Llegada a parada"
+                        label="Llegada a la parada"
                         value={values.hora}
                         onChange={(newValue) => {
                           setFieldValue('hora', newValue);
@@ -178,15 +174,16 @@ export const RouteForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl fullWidth>
-                    <InputLabel id="select-asientos">Asientos</InputLabel>
+                    <InputLabel id="select-asientos">Asientos disponibles</InputLabel>
                     <Select
                       labelId="select-label-asientos"
                       id="select-asientos"
                       value={values.asientos}
                       name="asientos"
-                      label="Asientos disponibles"
+                      label="asientos"
                       onChange={handleChange}
                     >
+                      <MenuItem value={0}>0</MenuItem>
                       <MenuItem value={1}>1</MenuItem>
                       <MenuItem value={2}>2</MenuItem>
                       <MenuItem value={3}>3</MenuItem>
@@ -212,7 +209,7 @@ export const RouteForm = () => {
                 <FormGroup>
                   <FormControlLabel 
                     control={<Checkbox />} 
-                    label="Apoyo para la gasolina" 
+                    label="¿Se requerirá cooperación para la gasolina?" 
                     checked={values.gasolina}
                     onChange= {() => setFieldValue('gasolina', !values.gasolina)}
                   />
@@ -231,7 +228,7 @@ export const RouteForm = () => {
               </Grid>
             </Grid>
           </Form>
-        )}}
+          )}}
       </Formik>
     </Box>
   )

@@ -36,9 +36,9 @@ export default function DashboardLayout() {
   const { collapseClick } = useCollapseDrawer();
 
   return (
-  <Box sx={{ pb: '72px'}}>
+  <Box sx={{ height: '100vh'}}>
     <DashboardNavbar/>
-    <Container maxWidth="xl" sx={{  display: 'flex', position:'relative'}}>
+    <Container maxWidth="xl" sx={{ height: '100%'}}>
       <MainStyle
         sx={{
           transition: theme.transitions.create('margin', {

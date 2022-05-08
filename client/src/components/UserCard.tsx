@@ -40,12 +40,12 @@ export default function UserCard() {
                   <TableCell>{`${user.name} ${user.lastName}`}</TableCell>
                 </TableRow>
                 <TableRow className={classes.tableRow}>
-                  <TableCell className={classes.tableLabel}>Email</TableCell>
+                  <TableCell className={classes.tableLabel}>Correo</TableCell>
                   <TableCell>{user.email}</TableCell>
                 </TableRow>
                 <TableRow className={classes.tableRow}>
                   <TableCell className={classes.tableLabel}>
-                    Telefono
+                    Teléfono
                   </TableCell>
                   <TableCell className={classes.tableLabel}>
                     {user.phone}

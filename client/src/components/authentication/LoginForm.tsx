@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import * as Yup from 'yup'
 
@@ -18,7 +17,6 @@ import useAuth from '../../hooks/useAuth';
 
 // Utils
 
-import { PATH_DASHBOARD } from '../../routes/paths';
 import { MIconButton } from '../@material-extend';
 
 
@@ -29,13 +27,12 @@ interface InitialValues {
 };
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('El correo debe ser valido').required('Se requiere un correo registrado'),
-  password: Yup.string().required('Se requiere una contraseña')
+  email: Yup.string().email('El correo debe ser valido.').required('Se requiere un correo.'),
+  password: Yup.string().required('Se requiere una contraseña.')
 });
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const context = useAuth();
   const {login} = context;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -51,10 +48,10 @@ export default function LoginForm() {
           email: '',
           password: '',
         }}
-        validationSchema= {LoginSchema}
+        validationSchema={LoginSchema}
         onSubmit={async (
           values: InitialValues,
-          { setSubmitting, resetForm, setErrors }: FormikHelpers<InitialValues>
+          { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
             await login(values.email, values.password);
@@ -66,7 +63,6 @@ export default function LoginForm() {
                 </MIconButton>
               )
             });
-            // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             resetForm();
             //Falta agregar useRef
@@ -115,7 +111,7 @@ export default function LoginForm() {
               type='submit'
               variant='contained'
               loading={isSubmitting}
-              >Iniciar Sesion</LoadingButton>
+              >Iniciar Sesión</LoadingButton>
             </Stack>
           </Form>
         )

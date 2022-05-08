@@ -60,6 +60,24 @@ export async function fetchRouteById(id:string) {
   });
 };
 
+export async function fetchEditRouteById(id:string) {
+  return new Promise(async (resolve,reject) => {
+    const url = `/rutas/edit/${id}`;
+    try {
+        const response =  await axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        });
+
+        resolve(response.data)
+
+    } catch(err){
+        reject(err);
+    }
+  });
+};
+
 export async function editRouteById(id:string, conductor:string, origen:string,
   horaLlegada:string, asientos:string, gasolina:boolean, dias:[]) {
   return new Promise(async (resolve,reject) => {

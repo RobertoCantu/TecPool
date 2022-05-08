@@ -55,7 +55,7 @@ function Login() {
               ¿No tienes una cuenta?&nbsp;
             </Typography>
             <Link underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-              Haz click para crear una
+              Crear una cuenta
             </Link>
           </div>
       </Container>

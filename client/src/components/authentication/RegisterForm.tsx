@@ -1,5 +1,4 @@
-import { useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
 import { useSnackbar } from 'notistack';
 import * as Yup from 'yup'
 
@@ -19,7 +18,6 @@ import useAuth from '../../hooks/useAuth';
 
 // Utils
 
-import { PATH_DASHBOARD } from '../../routes/paths';
 import { PASSWORD_REGEX, PHONE_REGEX, LASTNAME_REGEX } from '../../utils/regex';
 import { MIconButton } from '../@material-extend';
 
@@ -37,21 +35,18 @@ type InitialValues = {
 // Configure Yup validations
   
 const RegisterSchema = Yup.object().shape({
-  firstName: Yup.string().min(2, 'El nombre es muy corto').required('Se requiere un nombre'),
-  lastName: Yup.string().required('Se requiere un apellido').matches(LASTNAME_REGEX, "Se requieren los dos apellidos"),
-  email: Yup.string().email('El correo debe ser una direccion de correo valida').required('Se requiere un correo'),
-  phone: Yup.string().min(10, 'El número telefónico debe ser de 10 dígitos').required('Se requiere un teléfono'),
-  password: Yup.string().required('Se requiere una contraseña').matches(PASSWORD_REGEX,
-    "La contraseña de be tener 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y un carácter especial"
+  firstName: Yup.string().min(2, 'El nombre es muy corto').required('Se requiere un nombre(s).'),
+  lastName: Yup.string().required('Se requieren los apellidos.').matches(LASTNAME_REGEX, "Se requieren los dos apellidos."),
+  email: Yup.string().email('El correo debe ser una direccion de correo valida.').required('Se requiere un correo.'),
+  phone: Yup.string().min(10, 'El número de celular debe ser de 10 dígitos').required('Se requiere un número de celular.'),
+  password: Yup.string().required('Se requiere una contraseña.').matches(PASSWORD_REGEX,
+    "La contraseña debe tener 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y un carácter especial."
     ),
   });
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-
   const context = useAuth();
   const {register} = context;
 
@@ -84,7 +79,6 @@ function RegisterForm() {
                 </MIconButton>
               )
             });
-           // navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             console.log(error.message)
             resetForm();

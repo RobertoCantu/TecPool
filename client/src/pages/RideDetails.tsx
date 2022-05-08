@@ -1,13 +1,13 @@
-import React from 'react';
+import { useParams } from 'react-router-dom';
 
 // UI
 
-import { Typography, Box, Stack, Button } from '@mui/material';
+import { Typography, Box, Stack, Button, Container } from '@mui/material';
 
 // Components
 
-import { useParams } from 'react-router-dom';
 import RideCard from '../components/RideCard';
+import { ReturnButton } from '../components/ReturnButton'
 
 // Assets
 
@@ -15,11 +15,9 @@ import CarPool from '../assets/CarPool.png';
 
 // Uitls
 
-import useAuth from '../hooks/useAuth';
 import { fetchRouteById } from '../services/routesService';
 
 export default function RideDetails() {
-  const { user } = useAuth();
   const { rideId } = useParams();
 
   const message = '¡Hola! Me gustaría separar un lugar para tu ride al Tec.'
@@ -38,29 +36,34 @@ export default function RideDetails() {
   }
 
   return (
-    <Stack direction={{ xs: 'column', lg: 'row' }} spacing={4} justifyContent='center' alignItems={{xs: 'center', lg: 'stretch' }} sx={{height: '100%', position: 'relative', zIndex: 10}}>
-      <Stack sx ={{ minWidth: 300, maxWidth: 500, zIndex: 10 }}>
-        <Typography variant={"h4"} sx={{ textAlign: 'center'}}>Acerca del Ride</Typography>
-        <Typography sx={{ mb: 4, color: 'text.secondary' }}>¡Si te interesa este ride no dudes en reservar tu lugar!</Typography>
-        {rideId && <RideCard rideId={(rideId)}/>}
-        <Button
-          variant="contained"
-          sx={{ mt: 4, alignSelf: 'flex-start'}}
-          onClick={didTapPhoneNumber}
-        >
-          Reservar mi lugar
-        </Button>
-      </Stack>
-      <Box sx={{alignSelf: 'flex-end'}}>
-        <img
-            src={CarPool}
-            alt='carPool'
-            style={{
-              width: 'auto',
-              height: '350px',
-              borderRadius: '16px',
-            }}
-          />
+    <Stack>
+      <ReturnButton text='Regresar' />
+      <Box sx={{ pb: '56px' }}>
+        <Stack direction='row' justifyContent='center'>
+          <Container maxWidth="sm" sx={{display: 'flex', flexDirection:'column'}}>
+            <Typography variant={"h4"} sx={{ textAlign: 'center'}}>Acerca del Ride</Typography>
+            <Typography sx={{ mb: 4, color: 'text.secondary' }}>¡Si te interesa este ride no dudes en reservar tu lugar!</Typography>
+            {rideId && <RideCard rideId={(rideId)}/>}
+            <Button
+              variant="contained"
+              sx={{ mt: 4, alignSelf: 'flex-start'}}
+              onClick={didTapPhoneNumber}
+            >
+              Reservar mi lugar
+            </Button>
+          </Container>
+          <Box sx={{ alignSelf: 'flex-end' }}>
+            <img
+              src={CarPool}
+              alt='carPool'
+              style={{
+                width: 'auto',
+                height: '350px',
+                borderRadius: '16px',
+              }}
+            />
+          </Box>
+        </Stack>
       </Box>
     </Stack>
   )
